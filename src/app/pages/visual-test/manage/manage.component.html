@@ -1,0 +1,164 @@
+<form action="" [formGroup]="QuestionFG">
+
+	<h1 class="is-size-3">Visual Test: Manage</h1>
+	<br>
+
+	<h3 class="is-uppercase is-size-5 has-text-weight-bold">Question :</h3>
+	<div class="field is-horizontal">
+		<div class="field-label is-normal">
+			<label class="label has-text-weight-semibold">Question :</label>
+		</div>
+		<div class="field-body">
+			<div class="field">
+				<div class="control">
+					<input class="input" formControlName="question" type="text">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="is-dashed">
+
+	<h3 class="is-uppercase is-size-5 has-text-weight-bold">Chioce :</h3>
+
+	<div formArrayName="ChoiceArr">
+		<div *ngFor="let choices of ChoiceArr.controls; let i=index">
+			<div [formGroupName]="i">
+				<div class="field is-horizontal">
+					<div class="field-label is-normal">
+						<label class="label has-text-weight-semibold">Choice No :</label>
+					</div>
+					<div class="field-body">
+						<div class="field">
+							<p class="control">
+								<input class="input is-static" type="email" value="{{i+1}}" readonly>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label is-normal">
+						<label class="label has-text-weight-semibold">Choice :</label>
+					</div>
+					<div class="field-body">
+						<div class="field">
+							<div class="control">
+								<input class="input" formControlName="choice" type="text">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label is-normal">
+						<label class="label has-text-weight-semibold">Image :</label>
+					</div>
+					<div class="field-body">
+						<div class="field is-grouped">
+							<div class="control">
+								<div class="file has-name is-boxed">
+									<label class="file-label">
+										<input class="file-input" type="file" formControlName="img">
+										<span class="file-cta">
+											<span class="file-icon">
+												<i class="fas fa-upload"></i>
+											</span>
+											<span class="file-label">
+												Choose a file…
+											</span>
+										</span>
+										<span class="file-name">
+											Screen Shot 2017-07-29 at 15.54.25.png
+										</span>
+									</label>
+								</div>
+							</div>
+							<div class="control">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+					</div>
+					<div class="field-body">
+						<div class="field">
+							<button type="button" class="button is-danger is-small" (click)="removeChoice(i)">
+								<span>Remove Choice</span>
+								<span class="icon is-small">
+									<i class="fas fa-times"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+					</div>
+					<div class="field-body">
+						<div class="field">
+							<hr class="is-dashed">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="field is-horizontal">
+		<div class="field-label">
+		</div>
+		<div class="field-body">
+			<div class="field">
+				<div class="control">
+					<button class="button is-small is-primary" (click)="addNewChoice()">Add Choice</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="is-dashed">
+
+	<h2 class="is-uppercase is-size-5 has-text-weight-bold">Answer :</h2>
+
+	<div class="field is-horizontal">
+		<div class="field-label is-normal">
+			<label class="label has-text-weight-semibold">Answer :</label>
+		</div>
+		<div class="field-body">
+			<div class="field is-narrow">
+				<div class="control">
+					<div class="select is-fullwidth">
+						<select>
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="is-dashed">
+
+	<div class="field is-horizontal">
+		<div class="field-label">
+		</div>
+		<div class="field-body">
+			<div class="field is-grouped">
+				<div class="control">
+					<button class="button is-link">Submit</button>
+				</div>
+				<div class="control">
+					<button class="button is-text">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

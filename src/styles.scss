@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Kanit:300,400,500,600,700&subset=thai");
+
+body {
+    background: #EFF3F4;
+    // font-family: 'Kanit', sans-serif;
+}
+
+hr.is-dashed {
+    border-top: 1px dashed #dbdbdb;
+    background-color: unset;
+}

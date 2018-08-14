@@ -1,0 +1,40 @@
+<nav class="navbar is-transparent">
+    <div class="navbar-brand">
+        <!-- <a class="navbar-item" href="https://bulma.io">
+            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+        </a> -->
+        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active" routerLink="/starter">
+                Home
+            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="javaScript:void(0)">
+                    Career
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active" routerLink="/career/visual-test/question">
+                        <i class="fas fa-vial"></i>&nbsp;&nbsp;Visual Test: Question
+                    </a>
+                    <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active" routerLink="/career/visual-test/manage">
+                        <i class="fas fa-vials"></i>&nbsp;&nbsp;Visual Test: Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="field is-grouped">
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
