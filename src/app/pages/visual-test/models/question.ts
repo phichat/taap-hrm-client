@@ -8,9 +8,12 @@ export interface IQuestion {
 }
 
 export class Question {
-    id: number;
-    question: string;
-    img: string;
-    chioce: Choice[]
+   public id: number;
+   public questionType: string;
+   public question: string;
+   public img: any;
+   public imgName: string;
+   public chioce: Choice[];
+   public answer: string;
 }
 

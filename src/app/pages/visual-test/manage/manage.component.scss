@@ -1,0 +1,8 @@
+
+$is-shady-box: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+$border-radius: 4px;
+
+img {
+    box-shadow: $is-shady-box;
+    border-radius: $border-radius;
+}

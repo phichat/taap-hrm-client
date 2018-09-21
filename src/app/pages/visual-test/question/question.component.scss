@@ -1,3 +1,11 @@
+$is-shady-border: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
+$is-shady-box: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+$border-radius: 4px;
+
+.question {
+    border-radius: $border-radius;
+}
+
 ul {
     // margin-bottom: 26px !important;
     // margin-top: 8px !important;
@@ -18,15 +26,27 @@ ul {
     }
 }
 
+label.choice {
+    cursor: pointer;
+}
+
+.is-shady.is-select {
+    box-shadow: $is-shady-border;
+}
+
+.is-shady.unselect {
+    box-shadow: $is-shady-box;
+}
+
 .is-shady:hover {
-    box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
+    box-shadow: $is-shady-border;
 }
 
 .is-shady {
     animation: flyintoright .4s backwards;
     background: #fff;
-    // box-shadow: rgba(0, 0, 0, .1) 0 1px 0;
-    border-radius: 4px;
+    box-shadow: $is-shady-box;
+    border-radius: $border-radius;
     display: inline-block;
     margin: 10px;
     position: relative;

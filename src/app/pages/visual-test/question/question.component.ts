@@ -15,33 +15,33 @@ export class QuestionComponent implements OnInit {
 
     questionModel: Question[] = [
         {
-            id: 1, question: 'Question1', img: null,
+            id: 1, questionType: '1', question: 'Question1', img: null, imgName: null, answer: null,
             chioce: [
-                { id: 1, choice: 'choice1', img: null, isSelect: false },
-                { id: 1, choice: 'choice2', img: null, isSelect: false },
-                { id: 1, choice: 'choice3', img: null, isSelect: false },
-                { id: 1, choice: 'choice4', img: null, isSelect: false },
-                { id: 1, choice: 'choice5', img: null, isSelect: false }
+                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
             ]
         },
         {
-            id: 1, question: 'Question2', img: null,
+            id: 1, questionType: '1', question: 'Question2', img: null, imgName: null, answer: null,
             chioce: [
-                { id: 1, choice: 'choice1', img: null, isSelect: false },
-                { id: 1, choice: 'choice2', img: null, isSelect: false },
-                { id: 1, choice: 'choice3', img: null, isSelect: false },
-                { id: 1, choice: 'choice4', img: null, isSelect: false },
-                { id: 1, choice: 'choice5', img: null, isSelect: false }
+                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
             ]
         },
         {
-            id: 1, question: 'Question3', img: null,
+            id: 1, questionType: '1', question: 'Question3', img: null, imgName: null, answer: null,
             chioce: [
-                { id: 1, choice: 'choice1', img: null, isSelect: false },
-                { id: 1, choice: 'choice2', img: null, isSelect: false },
-                { id: 1, choice: 'choice3', img: null, isSelect: false },
-                { id: 1, choice: 'choice4', img: null, isSelect: false },
-                { id: 1, choice: 'choice5', img: null, isSelect: false }
+                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
+                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
             ]
         }
     ]
