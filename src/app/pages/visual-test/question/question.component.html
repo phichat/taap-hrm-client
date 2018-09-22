@@ -42,7 +42,7 @@
 	</div>
 </form> -->
 
-<form action="" [formGroup]="QuestionFG">
+<form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
 	<p class="title is-3 is-spaced">Visual Test: Querstion</p>
 
 	<br>
@@ -57,7 +57,7 @@
 					<div class="card question">
 						<div class="card-image">
 							<figure class="image is-5by3">
-								<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+								<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
 							</figure>
 						</div>
 						<div class="card-content">
@@ -75,7 +75,7 @@
 								[ngClass]="{'is-select':choices.value.isSelect, 'unselect': !choices.value.isSelect}">
 									<div class="card-image">
 										<figure class="image">
-											<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+											<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
 										</figure>
 									</div>
 									<div class="card-content control">
@@ -100,7 +100,7 @@
 
 	<div class="field is-grouped is-grouped-centered">
 		<p class="control">
-			<button type="button" (click)="onSubmit()" class="button is-link">
+			<button type="submit" class="button is-link">
 				Submit
 			</button>
 		</p>

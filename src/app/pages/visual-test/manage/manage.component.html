@@ -19,7 +19,7 @@
 						<div class="field">
 							<div class="control">
 								<div class="select is-fullwidth">
-									<select formControlName="questionType">
+									<select formControlName="questionType" required>
 										<option value="1">IQ test</option>
 										<option value="2">Career test</option>
 									</select>
@@ -37,7 +37,7 @@
 					<div class="field-body">
 						<div class="field">
 							<div class="control">
-								<input class="input" formControlName="question" type="text">
+								<input class="input" formControlName="question" type="text" required>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 					<div class="field-body">
 						<div class="field is-grouped">
 							<div class="control">
-								<img #imgQuestion src="https://bulma.io/images/placeholders/1280x960.png" alt="" height="280px" width="280px">
+								<img #imgQuestion [src]="QuestionFG.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px" width="280px">
 								<div class="file has-name is-fullwidth">
 									<label class="file-label">
 										<input class="file-input" type="file" name="question" (change)="changeQuestionImg($event, imgQuestion)">
@@ -108,7 +108,7 @@
 								<div class="field-body">
 									<div class="field">
 										<div class="control">
-											<input class="input" formControlName="choice" type="text">
+											<input class="input" formControlName="choice" type="text" required>
 										</div>
 									</div>
 								</div>
@@ -195,7 +195,7 @@
 						<div class="field is-narrow">
 							<div class="control">
 								<div class="select is-fullwidth">
-									<select formControlName="answer">
+									<select formControlName="answer" required>
 										<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
 									</select>
 								</div>

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question.component';
 import { Routes, RouterModule } from '../../../../../node_modules/@angular/router';
 import { FormsModule, ReactiveFormsModule } from '../../../../../node_modules/@angular/forms';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { QuestionService } from './question.service';
 
 const routes: Routes = [
   {
@@ -16,8 +19,13 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule
   ],
-  declarations: [QuestionComponent]
+  declarations: [
+    QuestionComponent
+  ],
+  providers: [QuestionService]
 })
 export class QuestionModule { }

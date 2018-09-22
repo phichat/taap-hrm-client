@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Choice } from '../models/choice';
 import { ManageService } from './manage.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 class answerModel {
 	value: string;
@@ -15,12 +17,15 @@ class answerModel {
 })
 export class ManageComponent implements OnInit {
 
-
 	constructor(
 		private fb: FormBuilder,
+		private activeRoute: ActivatedRoute,
+		private router: Router,
 		private manageService: ManageService
-		) { }
+	) { }
 
+	mode: any;
+	questionId: string;
 	QuestionFG: FormGroup;
 	Choices: FormArray;
 	Answer = new Array<answerModel>();
@@ -33,7 +38,30 @@ export class ManageComponent implements OnInit {
 
 		this.QuestionFG = this.createFrom();
 
-		this.addAnswer();
+		this.onActiveRoute();
+	}
+
+	onActiveRoute() {
+		this.activeRoute.params.subscribe(x => {
+			this.mode = x['mode'];
+			if (this.mode == 'R') {
+				this.manageService.getQuestionById(x['id']).then(async res => {
+					this.questionId = res.id;
+					await this.setItemFormArray(res.choice, 'choice');
+					await this.addAnswer();
+
+					await this.QuestionFG.reset(res);
+				})
+			}
+		})
+	}
+
+	private setItemFormArray(array: any[], formControl: string) {
+		if (array !== undefined && array.length) {
+			const itemFGs = array.map(item => this.fb.group(item));
+			const itemFormArray = this.fb.array(itemFGs);
+			this.QuestionFG.setControl(formControl, itemFormArray);
+		}
 	}
 
 	createFrom(): FormGroup {
@@ -44,7 +72,8 @@ export class ManageComponent implements OnInit {
 			img: new FormControl(null),
 			imgName: new FormControl(null),
 			answer: new FormControl(null),
-			choice: this.fb.array([this.createChoice()])
+			choice: this.fb.array([this.createChoice()]),
+			updateUserPosi: new FormControl(1)
 		})
 	}
 
@@ -55,7 +84,8 @@ export class ManageComponent implements OnInit {
 			choice: new FormControl(null),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
-			isSelect: new FormControl(null)
+			isSelect: new FormControl(null),
+			updateUserPosi: new FormControl(1)
 		})
 	}
 
@@ -130,10 +160,22 @@ export class ManageComponent implements OnInit {
 	}
 
 	onSave() {
-		console.log(this.QuestionFG.value);
-		this.manageService.createQuestion(this.QuestionFG.value).then(x => {
-			console.log(x);
-		});
+		if (this.mode == 'C') {
+			this.manageService.createQuestion(this.QuestionFG.value).then(x => {
+				alert('Save complete!');
+				this.resetForm();
+			}, (err: HttpErrorResponse) => {
+				alert(err.statusText)
+			});
+
+		} else if (this.mode == 'R') {
+			this.manageService.updateQuestion(this.questionId, this.QuestionFG.value).then(x => {
+				alert('Save complete!');
+				this.router.navigate(['/career/visual-test/manage/C/NEW']);
+			}, (err: HttpErrorResponse) => {
+				alert(err.statusText)
+			});
+		}
 	}
 
 	resetForm() {

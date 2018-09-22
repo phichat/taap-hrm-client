@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ManageService } from './manage.service';
+import { QuestionService } from '../question/question.service';
 
 const routes: Routes = [
   { path: '', component: ManageComponent }
@@ -21,6 +22,6 @@ const routes: Routes = [
     HttpClientModule
   ],
   declarations: [ManageComponent],
-  providers: [ManageService]
+  providers: [ManageService, QuestionService]
 })
 export class ManageModule { }

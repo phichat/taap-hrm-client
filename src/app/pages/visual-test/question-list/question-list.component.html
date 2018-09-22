@@ -1,3 +1,24 @@
-<p>
-  question-list works!
-</p>
+<table class="table is-bordered is-striped">
+  <thead>
+    <tr>
+      <th>Question type</th>
+      <th>Chice</th>
+      <th>Image Name</th>
+      <th>Is active</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of QuestionList; let i=index;">
+      <td>{{item.questionTypeDesc}}</td>
+      <td>{{item.question}}</td>
+      <td>{{item.imgName}}</td>
+      <td [ngClass]="{'has-text-primary': item.isActive == 1, 'has-text-danger': item.isActive == 0}">{{item.isActiveDesc}}</td>
+      <td>
+        <a routerLink="/career/visual-test/manage/R/{{item.id}}" class="button is-small is-link is-outlined">
+          Edit
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

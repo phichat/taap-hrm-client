@@ -15,7 +15,14 @@ export const routes: Routes = [
                 path: 'visual-test',
                 children: [
                     { path: 'question', loadChildren: './pages/visual-test/question/question.module#QuestionModule' },
-                    { path: 'manage', loadChildren: './pages/visual-test/manage/manage.module#ManageModule' },
+                    {
+                        path: 'manage',
+                        children: [
+                            { path: '', loadChildren: './pages/visual-test/manage/manage.module#ManageModule' },
+                            { path: ':mode/:id', loadChildren: './pages/visual-test/manage/manage.module#ManageModule' }
+                        ]
+                    },
+                    { path: 'question-list', loadChildren: './pages/visual-test/question-list/question-list.module#QuestionListModule' },
                     { path: 'verify', loadChildren: './pages/visual-test/verify/verify.module#VerifyModule' }
                 ]
             }
