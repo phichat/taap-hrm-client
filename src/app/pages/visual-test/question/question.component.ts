@@ -85,13 +85,17 @@ export class QuestionComponent implements OnInit {
     }
 
     ngOnInit() {
-
-
         this.questionService.getQuestionRandom().then(x => {
             this.questionModel = x;
             this.QuestionFG = this.fb.group({
                 QuestionArr: this.setQuestions()
-            })
+            });
+
+            setTimeout(() => {
+                const hours = (new Date()).getHours();
+                const min = (new Date()).getUTCMinutes();
+                alert(`Testing time out! ${hours}:${min}`);
+            }, 3600);
         });
     }
 
@@ -99,8 +103,6 @@ export class QuestionComponent implements OnInit {
         let QuestionArr = new FormArray([]);
         
         this.questionModel.map(x => {
-            console.log(x);
-            
             QuestionArr.push(this.fb.group({
                 question: x.question,
                 img: x.img,
