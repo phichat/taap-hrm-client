@@ -95,7 +95,7 @@ export class QuestionComponent implements OnInit {
                 const hours = (new Date()).getHours();
                 const min = (new Date()).getUTCMinutes();
                 alert(`Testing time out! ${hours}:${min}`);
-            }, 3600);
+            }, 3.6e+6);
         });
     }
 

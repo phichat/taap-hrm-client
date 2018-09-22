@@ -171,6 +171,7 @@ export class ManageComponent implements OnInit {
 		} else if (this.mode == 'R') {
 			this.manageService.updateQuestion(this.questionId, this.QuestionFG.value).then(x => {
 				alert('Save complete!');
+				this.resetForm();
 				this.router.navigate(['/career/visual-test/manage/C/NEW']);
 			}, (err: HttpErrorResponse) => {
 				alert(err.statusText)
