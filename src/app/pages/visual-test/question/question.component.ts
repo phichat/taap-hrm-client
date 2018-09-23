@@ -95,13 +95,15 @@ export class QuestionComponent implements OnInit {
                 const hours = (new Date()).getHours();
                 const min = (new Date()).getUTCMinutes();
                 alert(`Testing time out! ${hours}:${min}`);
-            }, 3.6e+6);
+                this.router.navigate(['/career/visual-test/verify']);
+            }, 5000);
+            // 3.6e+6
         });
     }
 
     private setQuestions() {
         let QuestionArr = new FormArray([]);
-        
+
         this.questionModel.map(x => {
             QuestionArr.push(this.fb.group({
                 question: x.question,
@@ -132,11 +134,25 @@ export class QuestionComponent implements OnInit {
             item.isSelect = i == index ? true : false;
         })
 
-        console.log(choiceArr);
-
     }
 
     onSubmit() {
+
+        // const q = this.QuestionFG.value.QuestionArr;
+        // // console.log(
+
+        // q.map(x => {
+        //     console.log(x);
+
+        //     // console.log(x.ChoiceArr.filter(f1 => f1.isSelect == true));
+
+        // })
+        // );
+        // for (let i = 0; i < val.length; i++) {
+        //     console.log(val[i]);
+        // }
+
+
         this.router.navigate(['/career/visual-test/verify'])
     }
 }
