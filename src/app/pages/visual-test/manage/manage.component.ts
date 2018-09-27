@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Choice } from '../models/choice';
 import { ManageService } from './manage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { QuestionListModel } from '../models/question';
+import { ToastrService } from 'ngx-toastr';
 
 class answerModel {
 	value: string;
 	text: string;
 }
+
+const updateUserPosi = 1;
 
 @Component({
 	selector: 'app-manage',
@@ -17,12 +21,18 @@ class answerModel {
 })
 export class ManageComponent implements OnInit {
 
+	isNewQeustion: boolean = false;
+	isModified: string;
+	QuestionList = new Array<QuestionListModel>();
+
 	constructor(
 		private fb: FormBuilder,
 		private activeRoute: ActivatedRoute,
 		private router: Router,
-		private manageService: ManageService
-	) { }
+		private manageService: ManageService,
+		private toastr: ToastrService
+	) {
+	}
 
 	mode: any;
 	questionId: string;
@@ -35,24 +45,25 @@ export class ManageComponent implements OnInit {
 	}
 
 	ngOnInit() {
-
-		this.QuestionFG = this.createFrom();
-
 		this.onActiveRoute();
 	}
 
 	onActiveRoute() {
 		this.activeRoute.params.subscribe(x => {
+			this.QuestionList = [];
+			this.resetForm();
 			this.mode = x['mode'];
 			if (this.mode == 'R') {
-				this.manageService.getQuestionById(x['id']).then(async res => {
-					this.questionId = res.id;
-					await this.setItemFormArray(res.choice, 'choice');
-					await this.addAnswer();
-
-					await this.QuestionFG.reset(res);
-				})
+				this.manageService.getQuestionSet(x['id']).then(x => {
+					this.QuestionList = x.questionList;
+					this.QuestionFG.patchValue({
+						questionSetId: x.questionSetId,
+						questionSet: x.questionSet,
+						timeOut: x.timeOut
+					})
+				});
 			}
+			// this.addAnswer();
 		})
 	}
 
@@ -64,28 +75,30 @@ export class ManageComponent implements OnInit {
 		}
 	}
 
-	createFrom(): FormGroup {
+	createQuestionFrom(): FormGroup {
 		return this.fb.group({
-			id: new FormControl(1),
-			questionType: new FormControl(null),
-			question: new FormControl(null),
+			id: new FormControl(0),
+			questionSetId: new FormControl(0, Validators.required),
+			questionSet: new FormControl(null, Validators.required),
+			timeOut: new FormControl(null, Validators.required),
+			question: new FormControl(null, Validators.required),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
-			answer: new FormControl(null),
+			isActive: new FormControl(null),
+			answer: new FormControl(null, Validators.required),
 			choice: this.fb.array([this.createChoice()]),
-			updateUserPosi: new FormControl(1)
+			updateUserPosi: new FormControl(updateUserPosi)
 		})
 	}
 
 	createChoice(): FormGroup {
 		return this.fb.group({
-			id: new FormControl(1),
-			questionId: new FormControl(1),
-			choice: new FormControl(null),
+			id: new FormControl(0),
+			questionId: new FormControl(0),
+			choice: new FormControl(null, Validators.required),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
-			isSelect: new FormControl(null),
-			updateUserPosi: new FormControl(1)
+			updateUserPosi: new FormControl(updateUserPosi)
 		})
 	}
 
@@ -159,28 +172,116 @@ export class ManageComponent implements OnInit {
 		return this.choice.at(i).value as Choice;
 	}
 
-	onSave() {
-		if (this.mode == 'C') {
-			this.manageService.createQuestion(this.QuestionFG.value).then(x => {
-				alert('Save complete!');
-				this.resetForm();
-			}, (err: HttpErrorResponse) => {
-				alert(err.statusText)
-			});
+	onCloseQuestion() {
+		this.isNewQeustion = false;
+		this.isModified = null;
+		this.resetForm();
+	}
 
-		} else if (this.mode == 'R') {
-			this.manageService.updateQuestion(this.questionId, this.QuestionFG.value).then(x => {
-				alert('Save complete!');
-				this.resetForm();
-				this.router.navigate(['/career/visual-test/manage/C/NEW']);
-			}, (err: HttpErrorResponse) => {
-				alert(err.statusText)
-			});
+	onCreateQuestion() {
+		this.isModified = 'C';
+		this.isNewQeustion = true;
+	}
+
+	onEditQuestion(questionId: number) {
+		this.manageService.getQuestion(questionId.toString()).then(async res => {
+			this.questionId = res.id;
+			await this.setItemFormArray(res.choice, 'choice');
+			this.addAnswer();
+			await this.QuestionFG.reset(res);
+			this.isModified = 'R';
+			this.isNewQeustion = true;
+		})
+	}
+
+	onActiveQuestion(e: any, i: number, id: number, event: any) {
+		const isActive = (e == 1 ? 0 : 1);
+		const msg = isActive == 1 ? 'Set is Active' : 'Set is Deactive';
+		const from = {
+			id,
+			isActive,
+			updateUserPosi
+		}
+
+		this.manageService.updateActiveQuestion(from).then(x => {
+			this.QuestionList
+				.filter((x, index) => index == i)
+				.map(x => x.isActive = isActive);
+
+			this.toastr.success(`${msg} complete!`, msg);
+
+		}, (err: HttpErrorResponse) => {
+			event.target.checked = (e == 1 ? true : false);
+			this.toastr.error(err.message, msg);
+		})
+	}
+
+	onDelChoice(id: number) {
+		if (id == 0) {
+			return;
 		}
 	}
 
+	onSave(f: any) {
+
+		if (this.isModified == 'C') {
+			this.manageService.createQuestion(this.QuestionFG.value).then(x => {
+				this.toastr.success('Save complete!');
+
+				if (this.mode == 'C') {
+					this.router.navigate(['/career/visual-test/manage', 'R', x.id])
+				} else {
+					this.onComplete(x);
+
+					f.isActive = 1;
+					this.QuestionList.push(f);
+				}
+
+			}, (err: HttpErrorResponse) => {
+				this.toastr.error(err.statusText)
+			});
+
+		} else if (this.isModified == 'R') {
+			// this.manageService.updateQuestion(this.QuestionFG.value).then(x => {
+			// 	this.toastr.success('Update complete!');
+			// 	this.onComplete(x);
+			// }, (err: HttpErrorResponse) => {
+			// 	this.toastr.error(err.statusText)
+			// });
+			console.log(this.QuestionFG);
+			
+		}
+	}
+
+	onUpdateQuestionSet() {
+		const fg = this.QuestionFG.value;
+		const from = {
+			id: fg.questionSetId,
+			questionSet: fg.questionSet,
+			timeOut: fg.timeOut,
+			updateUserPosi
+		}
+		this.manageService.updateQuestionSet(from).then(x => {
+			this.toastr.success('Update complete!');
+		}, (err: HttpErrorResponse) => {
+			this.toastr.error(err.statusText);
+		});
+	}
+
+	onComplete(x) {
+		this.isNewQeustion = false;
+		this.isModified = null;
+		this.resetForm();
+
+		this.QuestionFG.patchValue({
+			questionSetId: x.id,
+			questionSet: x.questionSet,
+			timeOut: x.timeOut
+		})
+	}
+
 	resetForm() {
-		this.QuestionFG = this.createFrom();
+		this.QuestionFG = this.createQuestionFrom();
 		this.addAnswer();
 	}
 }

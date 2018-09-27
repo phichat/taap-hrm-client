@@ -53,12 +53,14 @@ export class QuestionComponent implements OnInit {
     // ]
 
     _choiceArr: FormGroup = this.fb.group({
+        id: new FormControl(null),
         choice: new FormControl(null),
         img: new FormControl(null),
         isSelect: new FormControl(null)
     })
 
     _questionArr: FormGroup = this.fb.group({
+        id: new FormControl(null),
         question: new FormControl(null),
         img: new FormControl(null),
         ChoiceArr: this.fb.array([this._choiceArr])
@@ -96,7 +98,7 @@ export class QuestionComponent implements OnInit {
                 const min = (new Date()).getUTCMinutes();
                 alert(`Testing time out! ${hours}:${min}`);
                 this.router.navigate(['/career/visual-test/verify']);
-            }, 5000);
+            }, 3.6e+6);
             // 3.6e+6
         });
     }
@@ -106,6 +108,7 @@ export class QuestionComponent implements OnInit {
 
         this.questionModel.map(x => {
             QuestionArr.push(this.fb.group({
+                id: x.id,
                 question: x.question,
                 img: x.img,
                 ChoiceArr: this.setChoices(x)
@@ -119,6 +122,7 @@ export class QuestionComponent implements OnInit {
         let ChoiceArr = new FormArray([]);
         x.choice.map(y => {
             ChoiceArr.push(this.fb.group({
+                id: y.id,
                 choice: y.choice,
                 img: y.img,
                 isSelect: false
@@ -138,18 +142,25 @@ export class QuestionComponent implements OnInit {
 
     onSubmit() {
 
-        // const q = this.QuestionFG.value.QuestionArr;
-        // // console.log(
+        const q = this.QuestionFG.value.QuestionArr;
+        // console.log(
+        let f: any[] = [];
+        q.map(x => {
+            const choice = x.ChoiceArr.filter(f1 => f1.isSelect == true)[0] || null;
+            
+            f.push(
+                {
+                    questionId: x.id,
+                    answer: choice != null ? choice.id : null
+                }
+            )
+        })
 
-        // q.map(x => {
-        //     console.log(x);
-
-        //     // console.log(x.ChoiceArr.filter(f1 => f1.isSelect == true));
-
-        // })
+        console.log(f);
+        
         // );
         // for (let i = 0; i < val.length; i++) {
-        //     console.log(val[i]);
+        //      console.log(val[i]);
         // }
 
 

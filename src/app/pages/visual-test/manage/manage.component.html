@@ -1,227 +1,255 @@
-<form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSave()">
-
-	<h1 class="title is-3 is-spaced">Visual Test: Manage</h1>
-
-	<div class="card">
-		<header class="card-header">
-			<p class="card-header-title is-uppercase is-size-5 has-text-weight-bold">
-				Question :
-			</p>
-		</header>
-		<div class="card-content">
-			<div class="content">
-
-				<div class="field is-horizontal">
-					<div class="field-label is-normal">
-						<label class="label has-text-weight-semibold">Question type:</label>
-					</div>
-					<div class="field-body">
-						<div class="field">
-							<div class="control">
-								<div class="select is-fullwidth">
-									<select formControlName="questionType" required>
-										<option value="1">IQ test</option>
-										<option value="2">Career test</option>
-									</select>
-								</div>
-								<!-- <input class="input" formControlName="questionType" type="text"> -->
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="field is-horizontal">
-					<div class="field-label is-normal">
-						<label class="label has-text-weight-semibold">Question :</label>
-					</div>
-					<div class="field-body">
-						<div class="field">
-							<div class="control">
-								<input class="input" formControlName="question" type="text" required>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="field is-horizontal">
-					<div class="field-label is-normal">
-						<label class="label has-text-weight-semibold">Image :</label>
-					</div>
-					<div class="field-body">
-						<div class="field is-grouped">
-							<div class="control">
-								<img #imgQuestion [src]="QuestionFG.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px" width="280px">
-								<div class="file has-name is-fullwidth">
-									<label class="file-label">
-										<input class="file-input" type="file" name="question" (change)="changeQuestionImg($event, imgQuestion)">
-										<span class="file-cta">
-											<span class="file-icon">
-												<i class="fas fa-upload"></i>
-											</span>
-											<span class="file-label">
-												Choose a file…
-											</span>
-										</span>
-										<span class="file-name">{{QuestionFG.get('imgName').value}}</span>
-									</label>
-								</div>
-							</div>
-							<div class="control">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="container">
+	<div class="pageloader">
+		<span class="title">Pageloader</span>
 	</div>
 
-	<br>
+	<form action="" [formGroup]="QuestionFG" #f="ngForm" (ngSubmit)="onSave(f.value)">
 
-	<div class="card">
-		<header class="card-header">
-			<p class="card-header-title is-uppercase is-size-5 has-text-weight-bold">
-				Choice :
-			</p>
-		</header>
-		<div class="card-content">
-			<div class="content">
+		<h1 class="title is-3 is-spaced">Visual Test: Manage</h1>
+
+		<!-- <h1>Visual Test: Manage</h1> -->
+
+		<div class="card">
+			<header class="card-header">
+				<p class="card-header-title is-uppercase is-size-5 has-text-weight-bold">
+					Question set
+				</p>
+			</header>
+			<div class="card-content">
+				<div class="columns is-multiline">
+					<div class="column is-half">
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+								<label class="label has-text-weight-semibold">
+									Set : <span class="is-require">*</span>
+								</label>
+							</div>
+							<div class="field-body">
+								<div class="field">
+									<div class="control">
+										<input class="input" formControlName="questionSet" type="text" required>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+								<label class="label has-text-weight-semibold">
+									Time out : <span class="is-require">*</span>
+								</label>
+							</div>
+							<div class="field-body">
+								<div class="field">
+									<div class="control">
+										<input class="input" formControlName="timeOut" type="number" required>
+										<!-- <span class="icon is-medium is-right">
+											min
+											has-icons-right
+										</span> -->
+									</div>
+									<!-- <div class="control">
+										<input class="input" formControlName="timeOut" type="text" required>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<button type="button" class="button is-primary" (click)="onCreateQuestion()"
+						[disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
+							<i class="fas fa-plus-circle fa-spin"></i>&nbsp;New question
+						</button>
+					</div>
+				</div>
+
+				<div class="is-divider" data-content="- O -"></div>
+
+				<table class="table is-striped is-narrow is-fullwidth">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Question</th>
+							<th>Image Name</th>
+							<th>Active</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of QuestionList; let i=index;">
+							<td>{{i+1}}</td>
+							<td>{{item.question}}</td>
+							<td>{{item.imgName}}</td>
+							<td [ngSwitch]="item.isActive">
+								<div class="field">
+									<input id="switchRoundedDefault" type="checkbox" class="switch is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
+									 (change)="onActiveQuestion(item.isActive, i, item.id, $event)">
+									<label for="switchRoundedDefault"></label>
+								</div>
+							</td>
+							<td>
+								<a (click)="onEditQuestion(item.id)" class="button is-small is-link is-outlined">
+									Edit
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<br>
+
+		<article *ngIf="isNewQeustion" class="message is-link is-shady">
+			<div class="message-header">
+				<p></p>
+				<a class="delete" (click)="onCloseQuestion()"></a>
+			</div>
+			<div class="content message-body">
+				<h2 class="question-title">Question</h2>
+				<div class="columns is-multiline">
+					<div class="column is-half">
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+								<label class="label has-text-weight-semibold">
+									Question : <span class="is-require">*</span>
+								</label>
+							</div>
+							<div class="field-body">
+								<div class="field">
+									<div class="control">
+										<input class="input" formControlName="question" type="text" required>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="column is-half">
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+								<label class="label has-text-weight-semibold">Image :</label>
+							</div>
+							<div class="field-body">
+								<div class="field is-grouped">
+									<div class="control">
+										<label for="questionfileimg" class="find-img">
+											<img #imgQuestion [src]="QuestionFG.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'"
+											 alt="" height="280px" width="280px">
+											<span>{{QuestionFG.get('imgName').value || 'Choose a image ...'}}</span>
+										</label>
+										<input id="questionfileimg" class="file-input" type="file" name="question" (change)="changeQuestionImg($event, imgQuestion)"
+										 hidden>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="is-divider" data-content="- O -"></div>
+
+				<h2 class="question-title">Choices</h2>
 				<div formArrayName="choice">
-					<div *ngFor="let choices of choice.controls; let i=index">
-						<div [formGroupName]="i">
-							<div class="field is-horizontal">
-								<div class="field-label is-normal">
-									<label class="label has-text-weight-semibold">Choice No :</label>
-								</div>
-								<div class="field-body">
-									<div class="field">
-										<p class="control">
-											<input class="input is-static" type="email" value="{{i+1}}" readonly>
-										</p>
-									</div>
+					<div class="" *ngFor="let choices of choice.controls; let i=index">
+						<div class="columns is-multiline is-mobile section-choice" [formGroupName]="i">
+
+							<div class="column is-four-fifths">
+								<div class="tags has-addons">
+									<span class="tag is-danger">Choice no. : {{i+1}}</span>
+									<a class="tag is-delete" (click)="removeChoice(i)"></a>
 								</div>
 							</div>
 
-							<div class="field is-horizontal">
-								<div class="field-label is-normal">
-									<label class="label has-text-weight-semibold">Choice :</label>
-								</div>
-								<div class="field-body">
-									<div class="field">
-										<div class="control">
-											<input class="input" formControlName="choice" type="text" required>
-										</div>
-									</div>
-								</div>
-							</div>
+							<div class="column is-half">
 
-							<div class="field is-horizontal">
-								<div class="field-label is-normal">
-									<label class="label has-text-weight-semibold">Image :</label>
-								</div>
-								<div class="field-body">
-									<div class="field is-grouped">
-										<div class="control">
-											<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px"
-											 width="280px">
-											<div class="file has-name is-fullwidth">
-												<label class="file-label">
-													<input class="file-input" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)">
-													<span class="file-cta">
-														<span class="file-icon">
-															<i class="fas fa-upload"></i>
-														</span>
-														<span class="file-label">
-															Choose a file…
-														</span>
-													</span>
-													<span class="file-name">{{choices.get('imgName').value}}</span>
-												</label>
+								<div class="field is-horizontal">
+									<div class="field-label is-normal">
+										<label class="label has-text-weight-semibold">
+											Choice : <span class="is-require">*</span>
+										</label>
+									</div>
+									<div class="field-body">
+										<div class="field">
+											<div class="control">
+												<input class="input" formControlName="choice" type="text" required>
 											</div>
 										</div>
-										<div class="control">
+									</div>
+								</div>
+							</div>
+
+							<div class="column is-half">
+								<div class="field is-horizontal">
+									<div class="field-label is-normal">
+										<label class="label has-text-weight-semibold">Image :</label>
+									</div>
+
+									<div class="field-body">
+										<div class="field is-grouped">
+											<div class="control">
+												<label [for]="'choicefileimg'+i" class="find-img">
+													<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px"
+													 width="280px">
+													<span>{{choices.get('imgName').value || 'Choose a image ...'}}</span>
+												</label>
+												<input [id]="'choicefileimg'+i" class="file-input" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)"
+												 hidden>
+											</div>
+											<div class="control">
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+						</div>
+						<div style="margin-left: 6rem" class="is-divider" data-content="-- o --"></div>
 
-							<div class="field is-horizontal">
-								<div class="field-label">
-								</div>
-								<div class="field-body">
-									<div class="field">
-										<button type="button" class="button is-danger is-small" (click)="removeChoice(i)">
-											<span>Remove Choice</span>
-											<span class="icon is-small">
-												<i class="fas fa-times"></i>
-											</span>
-										</button>
+					</div>
+
+					<a class="button is-small is-primary" (click)="addNewChoice()">
+						<i class="fas fa-plus-circle fa-spin"></i>&nbsp;Add Choice
+					</a>
+				</div>
+
+
+				<!-- <hr> -->
+				<div class="is-divider" data-content="- O -"></div>
+
+				<h2 class="question-title">Answer</h2>
+				<div class="columns is-multiline">
+					<div class="column is-half">
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+								<label class="label has-text-weight-semibold">
+									Answer : <span class="is-require">*</span>
+								</label>
+							</div>
+							<div class="field-body">
+								<div class="field is-narrow">
+									<div class="control">
+										<div class="select is-fullwidth">
+											<select formControlName="answer" required>
+												<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
+											</select>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<hr class="is-dashed">
 					</div>
 				</div>
 
-				<div class="field is-horizontal">
-					<div class="field-label">
-					</div>
-					<div class="field-body">
-						<div class="field">
-							<div class="control">
-								<button type="button" class="button is-small is-primary" (click)="addNewChoice()">Add Choice</button>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
-		</div>
-	</div>
-	<br>
+		</article>
 
-	<div class="card">
-		<header class="card-header">
-			<p class="card-header-title is-uppercase is-size-5 has-text-weight-bold">
-				Answer :
+		<div class="field is-grouped is-grouped-right">
+			<p class="control">
+				<button type="button" class="button is-text" (click)="resetForm()">Cancel</button>
 			</p>
-		</header>
-		<div class="card-content">
-			<div class="content">
-				<div class="field is-horizontal">
-					<div class="field-label is-normal">
-						<label class="label has-text-weight-semibold">Answer :</label>
-					</div>
-					<div class="field-body">
-						<div class="field is-narrow">
-							<div class="control">
-								<div class="select is-fullwidth">
-									<select formControlName="answer" required>
-										<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<p class="control" [ngSwitch]="mode">
+				<button *ngIf="!isNewQeustion && mode =='R'" type="button" class="button is-link" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid"
+				 (click)="onUpdateQuestionSet()">Save</button>
+				<button *ngIf="isNewQeustion || mode == 'C'" type="submit" class="button is-link" [disabled]="f.invalid">Save</button>
+			</p>
 		</div>
-	</div>
-
-
-	<hr class="is-dashed">
-
-	<div class="field is-horizontal">
-		<div class="field-label">
-		</div>
-		<div class="field-body">
-			<div class="field is-grouped">
-				<div class="control">
-					<button type="submit" class="button is-link">Save</button>
-				</div>
-				<div class="control">
-					<button type="button" class="button is-text" (click)="resetForm()">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
+	</form>
+</div>

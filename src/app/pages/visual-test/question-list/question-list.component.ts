@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionListService } from './question-list.service';
-import { QuestionListModel } from './question-list.model';
+// import { QuestionListModel } from './question-list.model';
 
 @Component({
   selector: 'app-question-list',
@@ -9,16 +9,12 @@ import { QuestionListModel } from './question-list.model';
 })
 export class QuestionListComponent implements OnInit {
 
-  QuestionList = new Array<QuestionListModel>();
+  // QuestionList = new Array<QuestionListModel>();
 
   constructor(private questionListService: QuestionListService) { }
 
   ngOnInit() {
-    this.questionListService.getQuestionList().then(x =>  {
-      this.QuestionList = x;
-      console.log(this.QuestionList);
-      
-    });
+    // this.questionListService.getQuestionList().then(x => this.QuestionList = x);
   }
 
 }

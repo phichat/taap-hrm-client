@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -7,6 +8,7 @@ import { HeaderNavigationComponent } from './shared/header-navigation/header-nav
 import { RouterModule } from '../../node_modules/@angular/router';
 import { routes } from './app.routing';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,12 @@ import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/c
   imports: [
     CommonModule, 
     BrowserModule,
-    RouterModule.forRoot(routes)
+    BrowserAnimationsModule,
+    RouterModule.forRoot(routes),
+    ToastrModule.forRoot({
+      progressBar: true,
+      closeButton: true
+    })
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
