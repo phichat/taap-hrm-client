@@ -14,7 +14,8 @@ export const routes: Routes = [
             {
                 path: 'visual-test',
                 children: [
-                    { path: 'question', loadChildren: './pages/visual-test/question/question.module#QuestionModule' },
+                    { path: 'question/:questionSetId/:userId', loadChildren: './pages/visual-test/question/question.module#QuestionModule' },
+                    { path: 'question-set', loadChildren: './pages/visual-test/question-set-list/question-set-list.module#QuestionSetListModule' },
                     {
                         path: 'manage',
                         children: [
@@ -23,7 +24,7 @@ export const routes: Routes = [
                         ]
                     },
                     { path: 'question-list', loadChildren: './pages/visual-test/question-list/question-list.module#QuestionListModule' },
-                    { path: 'verify', loadChildren: './pages/visual-test/verify/verify.module#VerifyModule' }
+                    { path: 'verify/:questionSetId/:userId', loadChildren: './pages/visual-test/verify/verify.module#VerifyModule' }
                 ]
             }
         ]

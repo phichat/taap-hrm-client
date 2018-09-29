@@ -14,17 +14,22 @@ export class QuestionSet {
 }
 
 export class QuestionSetModel {
-    public questionSetId: number;
+    public id: number;
     public questionSet: string;
     public timeOut: number;
     public questionList: QuestionListModel[]
 }
 
+export class QuestionSetRandom {
+    public id: number;
+    public questionSet: string;
+    public timeOut: number;
+    public question: Question[]
+}
+
 export class Question {
     public id: number;
     public questionSetId: number;
-    public questionSet: string;
-    public timeOut: number;
     public question: string;
     public img: any;
     public imgName: string;
@@ -33,9 +38,21 @@ export class Question {
     public answer: string;
 }
 
+export class QuestionModel {
+    public id: number;
+    public questionSetId: number;
+    public question: string;
+    public imgName: string;
+    public isActive: number;
+}
+
 export class QuestionListModel {
     public id: number;
     public question: string;
     public imgName: string;
     public isActive: number;
+}
+
+export class QuestionSetResult {
+    public userId: number;
 }

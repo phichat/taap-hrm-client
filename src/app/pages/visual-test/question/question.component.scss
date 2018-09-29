@@ -38,9 +38,9 @@ label.choice {
     box-shadow: $is-shady-box;
 }
 
-.is-shady:hover {
-    box-shadow: $is-shady-border;
-}
+// .is-shady:hover {
+//     box-shadow: $is-shady-border;
+// }
 
 .is-shady {
     animation: flyintoright .4s backwards;

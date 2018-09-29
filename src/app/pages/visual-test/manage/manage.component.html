@@ -17,7 +17,7 @@
 			</header>
 			<div class="card-content">
 				<div class="columns is-multiline">
-					<div class="column is-half">
+					<div class="column is-three-quarters">
 						<div class="field is-horizontal">
 							<div class="field-label is-normal">
 								<label class="label has-text-weight-semibold">
@@ -40,23 +40,18 @@
 							</div>
 							<div class="field-body">
 								<div class="field">
-									<div class="control">
+									<div class="control has-icons-right">
 										<input class="input" formControlName="timeOut" type="number" required>
-										<!-- <span class="icon is-medium is-right">
+										<span class="icon is-medium is-right">
 											min
-											has-icons-right
-										</span> -->
+										</span>
 									</div>
-									<!-- <div class="control">
-										<input class="input" formControlName="timeOut" type="text" required>
-									</div> -->
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="column">
-						<button type="button" class="button is-primary" (click)="onCreateQuestion()"
-						[disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
+						<button type="button" class="button is-primary" (click)="onCreateQuestion();" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
 							<i class="fas fa-plus-circle fa-spin"></i>&nbsp;New question
 						</button>
 					</div>
@@ -81,9 +76,9 @@
 							<td>{{item.imgName}}</td>
 							<td [ngSwitch]="item.isActive">
 								<div class="field">
-									<input id="switchRoundedDefault" type="checkbox" class="switch is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
+									<input [id]="'isActive'+i" type="checkbox" class="switch is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
 									 (change)="onActiveQuestion(item.isActive, i, item.id, $event)">
-									<label for="switchRoundedDefault"></label>
+									<label [for]="'isActive'+i"></label>
 								</div>
 							</td>
 							<td>
@@ -99,7 +94,7 @@
 
 		<br>
 
-		<article *ngIf="isNewQeustion" class="message is-link is-shady">
+		<article formGroupName="question" *ngIf="isNewQeustion" class="message is-link is-shady">
 			<div class="message-header">
 				<p></p>
 				<a class="delete" (click)="onCloseQuestion()"></a>
@@ -117,7 +112,7 @@
 							<div class="field-body">
 								<div class="field">
 									<div class="control">
-										<input class="input" formControlName="question" type="text" required>
+										<input #questionInput class="input" formControlName="question" type="text" required>
 									</div>
 								</div>
 							</div>
@@ -132,12 +127,11 @@
 								<div class="field is-grouped">
 									<div class="control">
 										<label for="questionfileimg" class="find-img">
-											<img #imgQuestion [src]="QuestionFG.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'"
-											 alt="" height="280px" width="280px">
-											<span>{{QuestionFG.get('imgName').value || 'Choose a image ...'}}</span>
+											<img [src]="question.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px"
+											 width="280px">
+											<span>{{question.get('imgName').value || 'Choose a image ...'}}</span>
 										</label>
-										<input id="questionfileimg" class="file-input" type="file" name="question" (change)="changeQuestionImg($event, imgQuestion)"
-										 hidden>
+										<input id="questionfileimg" class="file-input" type="file" (change)="changeQuestionImg($event)" hidden>
 									</div>
 								</div>
 							</div>
@@ -154,8 +148,8 @@
 
 							<div class="column is-four-fifths">
 								<div class="tags has-addons">
-									<span class="tag is-danger">Choice no. : {{i+1}}</span>
-									<a class="tag is-delete" (click)="removeChoice(i)"></a>
+									<span class="tag is-danger">Choice no. : {{choices.get('answerChoice').value}}</span>
+									<a class="tag is-delete" (click)="onDelChoice(i)"></a>
 								</div>
 							</div>
 
@@ -187,8 +181,8 @@
 										<div class="field is-grouped">
 											<div class="control">
 												<label [for]="'choicefileimg'+i" class="find-img">
-													<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px"
-													 width="280px">
+													<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="220px"
+													 width="220px">
 													<span>{{choices.get('imgName').value || 'Choose a image ...'}}</span>
 												</label>
 												<input [id]="'choicefileimg'+i" class="file-input" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)"
@@ -201,7 +195,7 @@
 								</div>
 							</div>
 						</div>
-						<div style="margin-left: 6rem" class="is-divider" data-content="-- o --"></div>
+						<!-- <div style="margin-left: 6rem" class="is-divider" data-content="-- o --"></div> -->
 
 					</div>
 
@@ -210,8 +204,6 @@
 					</a>
 				</div>
 
-
-				<!-- <hr> -->
 				<div class="is-divider" data-content="- O -"></div>
 
 				<h2 class="question-title">Answer</h2>
@@ -243,12 +235,12 @@
 
 		<div class="field is-grouped is-grouped-right">
 			<p class="control">
-				<button type="button" class="button is-text" (click)="resetForm()">Cancel</button>
+				<button type="button" class="button is-text" (click)="resetQuestionForm()">Cancel</button>
 			</p>
 			<p class="control" [ngSwitch]="mode">
 				<button *ngIf="!isNewQeustion && mode =='R'" type="button" class="button is-link" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid"
 				 (click)="onUpdateQuestionSet()">Save</button>
-				<button *ngIf="isNewQeustion || mode == 'C'" type="submit" class="button is-link" [disabled]="f.invalid">Save</button>
+				<button *ngIf="isNewQeustion || mode == 'C'" type="submit" class="button is-link" [disabled]="QuestionFG.invalid">Save</button>
 			</p>
 		</div>
 	</form>

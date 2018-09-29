@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VerifyComponent } from './verify.component';
+import { VerifyComponent, VerifyService } from './verify.component';
 import { Routes, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 const routes: Routes = [
   {
@@ -15,9 +16,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule
+    HttpModule,
+    HttpClientModule
   ],
-  declarations: [VerifyComponent]
+  declarations: [VerifyComponent],
+  providers: [VerifyService]
 })
 export class VerifyModule { }
