@@ -34,40 +34,7 @@ export class QuestionComponent implements OnInit {
 
     private userId: number;
     private questionSetId: number;
-
     questionModel: Question[]
-    ss = [
-        {
-            id: 1, questionType: '1', question: 'Question1', img: null, imgName: null, answer: null, isActive: true,
-            chioce: [
-                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-            ]
-        },
-        {
-            id: 1, questionType: '1', question: 'Question2', img: null, imgName: null, answer: null, isActive: false,
-            chioce: [
-                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-            ]
-        },
-        {
-            id: 1, questionType: '1', question: 'Question3', img: null, imgName: null, answer: null, isActive: false,
-            chioce: [
-                { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-                { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-            ]
-        }
-    ]
 
     _choiceArr: FormGroup = this.fb.group({
         id: new FormControl(null),
@@ -84,6 +51,8 @@ export class QuestionComponent implements OnInit {
     })
 
     QuestionFG: FormGroup = this.fb.group({
+        questionSet: new FormControl(null),
+        timeOut: new FormControl(null),
         QuestionArr: this.fb.array([this._questionArr])
     });
 
@@ -112,6 +81,8 @@ export class QuestionComponent implements OnInit {
                 this.questionModel = x.question;
                 this.myTimeout = x.timeOut;
                 this.QuestionFG = this.fb.group({
+                    questionSet: x.questionSet,
+                    timeOut: x.timeOut,
                     QuestionArr: this.setQuestions()
                 });
 

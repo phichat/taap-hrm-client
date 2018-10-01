@@ -1,79 +1,13 @@
-<!-- 
+
 
 <form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
-	<p class="title is-3 is-spaced">Visual Test: Querstion</p>
+
+	<p class="title is-3 is-spaced">
+		Visual Test: {{QuestionFG.get('questionSet').value}} 
+	</p>
+	<p>Time out: {{QuestionFG.get('timeOut').value}} Minutes.</p>
 
 	<br>
-
-	<div formArrayName="QuestionArr">
-		<div *ngFor="let questions of getQuestionArr(QuestionFG); let i=index">
-
-			<div class="columns is-variable bd-klmn-columns is-2" [formGroupName]="i">
-
-				<div class="column is-6">
-					<div class="card question">
-						<div class="card-image">
-							<figure class="image is-5by3">
-								<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
-							</figure>
-						</div>
-						<div class="card-content">
-							<h3 class="is-size-4">{{i+1}}. {{questions.get('question').value}}</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="column is-6" formArrayName="ChoiceArr">
-
-					<div class="columns is-gapless is-multiline is-mobile">
-						<div class="column is-one-third" *ngFor="let choices of getChoiceArr(questions); let j=index;">
-							<label for="{{i+1}}.{{j+1}}" class="choice">
-								<div [formGroupName]="j" class="card is-shady" 
-								[ngClass]="{'is-select':choices.value.isSelect, 'unselect': !choices.value.isSelect}">
-									<div class="card-image">
-										<figure class="image">
-											<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
-										</figure>
-									</div>
-									<div class="card-content control">
-										<input type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)" id="{{i+1}}.{{j+1}}">&nbsp;
-										{{i+1}}.{{j+1}}
-										{{choices.get('choice').value}}
-									</div>
-								</div>
-							</label>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-			<hr class="is-dashed">
-
-		</div>
-	</div>
-
-	<div class="field is-grouped is-grouped-centered">
-		<p class="control">
-			<button type="submit" class="button is-link">
-				Submit
-			</button>
-		</p>
-		<p class="control">
-			<a class="button is-white">
-				Cancel
-			</a>
-		</p>
-	</div>
-
-</form> -->
-
-
-<p class="title is-3 is-spaced">Visual Test: Querstion</p>
-
-<br>
-<form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
-
 	<div class="tags has-addons">
 		<span class="tag is-dark is-medium">Your choose</span>
 		<span class="tag is-primary is-medium">{{choiceYourChoose || 0}} of {{getQuestionArr(QuestionFG).length}} question</span>
