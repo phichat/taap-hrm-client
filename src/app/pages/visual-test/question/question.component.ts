@@ -40,38 +40,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
     private questionSetId: number;
 
     questionModel: Question[]
-    // ss = [
-    //     {
-    //         id: 1, questionType: '1', question: 'Question1', img: null, imgName: null, answer: null, isActive: true,
-    //         chioce: [
-    //             { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-    //         ]
-    //     },
-    //     {
-    //         id: 1, questionType: '1', question: 'Question2', img: null, imgName: null, answer: null, isActive: false,
-    //         chioce: [
-    //             { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-    //         ]
-    //     },
-    //     {
-    //         id: 1, questionType: '1', question: 'Question3', img: null, imgName: null, answer: null, isActive: false,
-    //         chioce: [
-    //             { id: 1, questionId: 1, choice: 'choice1', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice2', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice3', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice4', img: null, imgName: null, isSelect: false },
-    //             { id: 1, questionId: 1, choice: 'choice5', img: null, imgName: null, isSelect: false }
-    //         ]
-    //     }
-    // ]
 
     _choiceArr: FormGroup = this.fb.group({
         id: new FormControl(null),
@@ -112,7 +80,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
             this.questionSetId = x['questionSetId'];
             this.userId = x['userId'];
 
-            this.getRandomSubscrip = this.questionService.getQuestionRandom(x['questionSetId'])
+            this.getRandomSubscrip = this.questionService
+                .getQuestionRandom(x['questionSetId'])
                 .subscribe((res: any) => {
                     const x: QuestionSetRandom = res.json();
 
