@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiConfig } from '../../../app.config';
 import { QuestionSetRandom } from '../models/question';
-import { HttpService } from '../../../core/http.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +10,7 @@ import { Observable } from 'rxjs';
 export class QuestionService {
 
   constructor(
-    private http: HttpClient,
-    private httpService: HttpService
+    private http: HttpClient
   ) { }
 
   private httpOptions = {
