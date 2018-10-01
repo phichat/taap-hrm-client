@@ -23,7 +23,6 @@ export const routes: Routes = [
                             { path: ':mode/:id', loadChildren: './pages/visual-test/manage/manage.module#ManageModule' }
                         ]
                     },
-                    { path: 'question-list', loadChildren: './pages/visual-test/question-list/question-list.module#QuestionListModule' },
                     { path: 'verify/:questionSetId/:userId', loadChildren: './pages/visual-test/verify/verify.module#VerifyModule' }
                 ]
             }

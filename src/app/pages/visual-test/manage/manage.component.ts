@@ -124,7 +124,7 @@ export class ManageComponent implements OnInit {
 			let c = this.createChoice();
 			let answerChoice = this.Choices.value;
 			answerChoice = answerChoice.map(x => x.answerChoice);
-			
+
 			c.patchValue({ answerChoice: Math.max(...answerChoice) + 1 })
 			this.Choices.push(c);
 			const arrChoice: Choice[] = this.Choices.value;
@@ -325,7 +325,13 @@ export class ManageComponent implements OnInit {
 	}
 
 	resetQuestionForm() {
-		this.question.reset(this.createQuestionFrom());
+		this.Question = this.question;
+		this.Question.reset(this.createQuestionFrom());
+		this.Choices = this.choice;
+		while (this.Choices.length !== 0) {
+			this.Choices.removeAt(0)
+		}
+		this.Choices.push(this.createChoice())
 		this.Answer = new Array<answerModel>();
 		// this.addAnswer();
 	}
