@@ -7,6 +7,7 @@ export class Choice {
     id: number;
     questionId: number;
     choice: string;
+    answerChoice: number;
     img: any;
     imgName: string;
     isSelect: boolean;

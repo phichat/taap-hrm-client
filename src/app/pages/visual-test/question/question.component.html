@@ -1,46 +1,4 @@
-<!-- <form action="" [formGroup]="QuestionFG">
-	<h1 class="is-size-3">Visual Test: Querstion</h1>
-	<br>
-	<ul formArrayName="QuestionArr">
-		<li *ngFor="let questions of getQuestionArr(QuestionFG); let i=index">
-			<h3 class="is-size-4">{{i+1}}. {{questions.get('question').value}}</h3>
-			<div [formGroupName]="i">
-				<ul class="columns is-mobile" formArrayName="ChoiceArr">
-					<li *ngFor="let choices of getChoiceArr(questions); let j=index;" class="column">
-						<div [formGroupName]="j" class="card is-shady">
-							<div class="card-image">
-								<figure class="image is-2by1">
-									<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-								</figure>
-							</div>
-							<div class="card-content control">
-								<label for="{{i+1}}.{{j+1}}" class="tag radio" 
-								[ngClass]="{'is-primary':choices.value.isSelect, 'is-light': !choices.value.isSelect}">
-									<input type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)" id="{{i+1}}.{{j+1}}">&nbsp;
-									{{i+1}}.{{j+1}} {{choices.get('choice').value}}
-								</label>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<hr class="is-dashed">
-		</li>
-	</ul>
-
-	<div class="field is-grouped is-grouped-right">
-		<p class="control">
-			<button type="button" (click)="onSubmit()" class="button is-link">
-				Submit
-			</button>
-		</p>
-		<p class="control">
-			<a class="button is-light">
-				Cancel
-			</a>
-		</p>
-	</div>
-</form> -->
+<!-- 
 
 <form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
 	<p class="title is-3 is-spaced">Visual Test: Querstion</p>
@@ -50,7 +8,6 @@
 	<div formArrayName="QuestionArr">
 		<div *ngFor="let questions of getQuestionArr(QuestionFG); let i=index">
 
-			<!-- <div class="tile is-ancestor"> -->
 			<div class="columns is-variable bd-klmn-columns is-2" [formGroupName]="i">
 
 				<div class="column is-6">
@@ -79,7 +36,6 @@
 										</figure>
 									</div>
 									<div class="card-content control">
-										<!-- [ngClass]="{'is-primary':choices.value.isSelect, 'is-light': !choices.value.isSelect}" -->
 										<input type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)" id="{{i+1}}.{{j+1}}">&nbsp;
 										{{i+1}}.{{j+1}}
 										{{choices.get('choice').value}}
@@ -91,7 +47,6 @@
 
 				</div>
 			</div>
-			<!-- </div> -->
 
 			<hr class="is-dashed">
 
@@ -111,4 +66,87 @@
 		</p>
 	</div>
 
+</form> -->
+
+
+<p class="title is-3 is-spaced">Visual Test: Querstion</p>
+
+<br>
+<form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
+
+	<div class="tags has-addons">
+		<span class="tag is-dark is-medium">Your choose</span>
+		<span class="tag is-primary is-medium">{{choiceYourChoose || 0}} of {{getQuestionArr(QuestionFG).length}} question</span>
+	</div>
+
+	<div class="steps" id="stepsDemo">
+		<div #stepsContent class="steps-content" formArrayName="QuestionArr">
+			<div *ngFor="let questions of getQuestionArr(QuestionFG); let i=index" class="step-content has-text-centered"
+			 [ngClass]="{'is-active': i==0}">
+
+				<h3 class="is-size-4 has-text-left">{{i+1}}. {{questions.get('question').value}}</h3>
+
+				<div class="columns is-variable bd-klmn-columns is-2" [formGroupName]="i">
+					<div class="column"></div>
+					<div class="column is-5">
+						<div class="card question">
+							<div class="card-image">
+								<figure class="image is-5by3">
+									<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
+								</figure>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+					</div>
+				</div>
+
+				<hr class="is-dashed">
+
+				<div class="columns">
+					<div class="column ">
+						<div class="columns is-gapless is-multiline is-mobile">
+							<div class="column is-one-third" *ngFor="let choices of getChoiceArr(questions); let j1=index">
+								<div class="card is-shady">
+									<div class="card-image">
+										<figure class="image">
+											<img max-width="220px" max-height="220px" [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'"
+											 alt="Placeholder image">
+										</figure>
+									</div>
+									<div style="padding: .1rem" class="card-content control has-text-centered">
+										{{i+1}}.{{j1+1}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="is-divider-vertical" data-content="CHOICES"></div>
+					<div class="column">
+						<div class="columns" *ngFor="let choices of getChoiceArr(questions); let j=index;">
+							<div class="column has-text-left">
+								<div class="field">
+									<input class="is-checkradio" type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)" id="{{i+1}}.{{j+1}}">
+									<label for="{{i+1}}.{{j+1}}">{{i+1}}.{{j+1}} {{choices.get('choice').value}}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr class="is-dashed">
+			</div>
+		</div>
+		<div class="steps-actions">
+			<div class="steps-action">
+				<a *ngIf="showPreviousButton" href="javaScript:void(0);" data-nav="previous" class="button is-light" (click)="onPreviousStep()">Previous</a>
+			</div>
+			<div class="steps-action">
+				<a *ngIf="showNextButton" href="javaScript:void(0);" data-nav="next" class="button is-light" (click)="onNextStep()">Next</a>
+				<button *ngIf="choiceYourChoose == getQuestionArr(QuestionFG).length" type="submit" class="button is-link">
+					Submit
+				</button>
+			</div>
+		</div>
+	</div>
 </form>

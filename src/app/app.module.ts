@@ -9,6 +9,7 @@ import { RouterModule } from '../../node_modules/@angular/router';
 import { routes } from './app.routing';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
+    // CoreModule,
     ToastrModule.forRoot({
       progressBar: true,
       closeButton: true

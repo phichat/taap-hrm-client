@@ -8,7 +8,7 @@
 	<div class="field-body">
 		<div class="field">
 			<p class="control">
-				<input class="input is-static" type="text" value="นายเอชัย สมพร" readonly>
+				<input class="input is-static" type="text" [value]="result.userId" readonly>
 			</p>
 		</div>
 	</div>
@@ -29,14 +29,25 @@
 
 <div class="field is-horizontal">
 	<div class="field-label is-normal">
+		<label class="label">ชุดคำถาม :</label>
+	</div>
+	<div class="field-body">
+		<div class="field is-grouped">
+			{{result.questionSetId}}
+		</div>
+	</div>
+</div>
+
+<div class="field is-horizontal">
+	<div class="field-label is-normal">
 		<label class="label">ผลทดสอบ :</label>
 	</div>
 	<div class="field-body">
 		<div class="field is-grouped">
 			<div class="tags">
-				<span class="tag is-success">ผ่าน (15)</span>
-				<span class="tag is-danger">ไม่ผ่าน (5)</span>
-				<span class="tag is-white">จากทั้งหมด (20)</span>
+				<span class="tag is-success">ผ่าน ({{result.pass}})</span>
+				<span class="tag is-danger">ไม่ผ่าน ({{result.fail}})</span>
+				<span class="tag is-white">จากทั้งหมด ({{result.total}})</span>
 			</div>
 		</div>
 	</div>

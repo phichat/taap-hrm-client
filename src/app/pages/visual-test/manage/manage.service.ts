@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiConfig } from '../../../app.config';
-import { QuestionListModel, QuestionSet, QuestionSetModel } from '../models/question';
+import { QuestionListModel, QuestionSet, QuestionSetModel, QuestionModel } from '../models/question';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class ManageService {
     return this.http.get<QuestionSetModel>(url, { params }).toPromise();
   }
 
-  createQuestion(form: any): Promise<QuestionSet> {
+  createQuestion(form: any): Promise<QuestionModel> {
     const url = `${apiConfig.apiUrl}/Question/CreateQuestion`;
     const params = form;
     return this.http.post<any>(url, params, this.httpOptions).toPromise();
@@ -58,9 +58,9 @@ export class ManageService {
     return this.http.put<any>(url, params, this.httpOptions).toPromise();
   }
 
-  updateActionQuestionSet(from: any): Promise<boolean> {
-    const url = `${apiConfig.apiUrl}/Question/ActiveQuestionSet`;
-    const params = from;
-    return this.http.put<any>(url, params, this.httpOptions).toPromise();
+  deleteChoice(id: string): Promise<boolean> {
+    const url = `${apiConfig.apiUrl}/Question/DeleteChoice`;
+    const params = { id };
+    return this.http.delete<any>(url, { params }).toPromise();
   }
 }
