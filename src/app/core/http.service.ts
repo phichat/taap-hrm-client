@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { Observable } from 'rxjs/Observable';
 import {
     Http,
     RequestOptions,
@@ -21,7 +20,7 @@ import { catchError, tap, finalize } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class HttpService extends Http {
-    apiUrl = apiConfig.apiUrl;
+    apiUrl = `${apiConfig.apiUrl}/`;
 
     constructor(
         backend: XHRBackend,
@@ -45,6 +44,7 @@ export class HttpService extends Http {
                 }),
                 finalize(() => this.onEnd())
             );
+            
     }
 
     private requestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {

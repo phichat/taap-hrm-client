@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiConfig } from '../../../app.config';
 import { QuestionSetRandom } from '../models/question';
 import { HttpService } from '../../../core/http.service';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,13 @@ export class QuestionService {
       })
   };
 
-  getQuestionRandom(id: string): Promise<QuestionSetRandom> {
-    const url = `${apiConfig.apiUrl}/Question/GetQuestionRandom`;
-    const params = { id };
-    return this.http.get<any>(url, { params }).toPromise();
+  getQuestionRandom(id: string) {
+    // const url = `${apiConfig.apiUrl}/Question/GetQuestionRandom`;
     // const params = { id };
-    // return this.httpService.get(url, { params }).toPromise();
+    // return this.http.get<any>(url, { params }).toPromise();
+    const url = 'Question/GetQuestionRandom'
+    const params = { id };
+    return this.httpService.get(url, { params })
   }
 
   verifyQuestion(form: any): Promise<boolean> {

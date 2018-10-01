@@ -10,6 +10,7 @@ import { routes } from './app.routing';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
+import { Http, HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -22,14 +23,21 @@ import { CoreModule } from './core/core.module';
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
-    // CoreModule,
+    CoreModule,
+    HttpModule,
     ToastrModule.forRoot({
       progressBar: true,
       closeButton: true
     })
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { 
+      provide: LocationStrategy, 
+      useClass: HashLocationStrategy 
+    },
+    {
+      provide: Http
+    }
   ],
   bootstrap: [AppComponent]
 })
