@@ -9,4 +9,15 @@ export class VerifyModel {
     public pass: number;
     public fail: number;
     public total: number;
+    public resultDetail: Array<ResultDetail>
+}
+
+export class ResultDetail {
+    public id: number;
+    public testResultId: number;
+    public questionId: number;
+    public testedQuestion: string;
+    public testedAnswer: string;
+    public answer: string;
+    public result: boolean;
 }

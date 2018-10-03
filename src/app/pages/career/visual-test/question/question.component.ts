@@ -88,7 +88,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
                     const x: QuestionSetRandom = res.json();
 
                     this.questionModel = x.question;
-                    
+
                     this.timeOutMinutes = x.timeOut * 60; // หน่วยเป็น Seconds
                     const timeOutMilliseconds = (x.timeOut * 60000) + 60000 // หน่วยเป็น Milliseconds เพิ่มให้ delay 1 นาที
                     this.QuestionFG = this.fb.group({
@@ -105,7 +105,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
                         this.endTime = new Date();
                         alert(`Testing time out! ${hours}:${min}`);
                         this.setAnswer();
-                    }, timeOutMilliseconds); 
+                    }, timeOutMilliseconds);
                 });
 
         });
@@ -136,6 +136,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
                 id: y.id,
                 choice: y.choice,
                 img: y.img,
+                answerChoice: y.answerChoice,
                 isSelect: false
             }))
         })
@@ -178,7 +179,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
             const choice = x.ChoiceArr.filter(f1 => f1.isSelect == true)[0] || null;
             f.push({
                 questionId: x.id,
-                answer: choice != null ? choice.id : 0
+                answer: choice != null ? choice.answerChoice : 0
             });
         });
 
