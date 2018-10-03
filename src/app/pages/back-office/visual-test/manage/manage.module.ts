@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { ManageService } from './manage.service';
-import { QuestionService } from '../question/question.service';
+import { QuestionService } from 'src/app/pages/career/visual-test/question/question.service';
 
 const routes: Routes = [
   { path: '', component: ManageComponent }

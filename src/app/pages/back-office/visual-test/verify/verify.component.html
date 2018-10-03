@@ -1,0 +1,38 @@
+
+<div class="content">
+	<h2>Visual test result</h2>
+	<div class="columns">
+		<div class="column">
+			<blockquote>
+				<p><strong>Tested : </strong>{{result.fullName}}</p>
+				<p><strong>Question set : </strong>{{result.questionSet}}</p>
+				<p><strong>Time out : </strong>{{result.timeOut}} Minutes</p>
+				<p><strong>Ues time : </strong>{{result.timeUse}} Minutes</p>
+			</blockquote>
+		</div>
+		<div class="is-divider-vertical" data-content=""></div>
+		<div class="column">
+			<nav class="level">
+				<div class="level-item has-text-centered">
+					<div class="is-red">
+						<p class="heading">Total</p>
+						<p class="title">{{result.total}}</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div class="">
+						<p class="heading">Pass</p>
+						<p class="title">{{result.pass}}</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div class="">
+						<p class="heading">Fail</p>
+						<p class="title">{{result.fail}}</p>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+</div>

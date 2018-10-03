@@ -16,3 +16,23 @@ hr.is-dashed {
     border-top: 1px dashed #dbdbdb;
     background-color: unset;
 }
+
+table.dataTable {
+    .button.is-small {
+        height: 1rem !important;
+    }
+
+    .field {
+        .switch[type=checkbox]+label {
+            padding-top: .1rem !important;
+        }
+
+        .switch[type=checkbox]:checked+label::after {
+            left: 1.925rem;
+        }
+
+        label::before {
+            height: 1.3rem !important;
+        }
+    }
+}

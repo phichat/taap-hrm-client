@@ -7,7 +7,7 @@
   <!-- Right side -->
   <div class="level-right">
     <p class="level-item">
-      <a class="button is-primary" [routerLink]="['/career/visual-test/manage', 'C', 'NEW']" preserveQueryParams preserveFragment>
+      <a class="button is-primary" [routerLink]="['/back-office/visual-test/manage', 'C', 'NEW']" preserveQueryParams preserveFragment>
         <i class="fas fa-plus-circle fa-spin"></i>&nbsp;New
       </a>
     </p>
@@ -19,8 +19,9 @@
     <tr>
       <th>No.</th>
       <th>Question set</th>
-      <th>Time out</th>
-      <th>Active</th>
+      <th class="has-text-centered">Time out</th>
+      <th class="has-text-centered">Active</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -28,8 +29,8 @@
     <tr *ngFor="let item of questionSetList; let i=index;">
       <td>{{i+1}}</td>
       <td>{{item.questionSet}}</td>
-      <td>{{item.timeOut}}</td>
-      <td [ngSwitch]="item.isActive">
+      <td class="has-text-centered">{{item.timeOut}}</td>
+      <td class="has-text-centered" [ngSwitch]="item.isActive">
         <div class="field">
           <input [id]="'isActive'+i" type="checkbox" class="switch is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
             (change)="onActiveQuestionSet(item.isActive, i, item.id, $event)">
@@ -37,9 +38,14 @@
         </div>
       </td>
 
-      <td>
-        <a [routerLink]="['/career/visual-test/manage', 'R', item.id]" preserveQueryParams preserveFragment class="button is-small is-link is-outlined">
+      <td class="has-text-centered">
+        <a [routerLink]="['/back-office/visual-test/manage', 'R', item.id]" preserveQueryParams preserveFragment class="button is-small is-link is-outlined">
           Edit
+        </a>
+      </td>
+      <td class="has-text-centered">
+        <a [routerLink]="['/career/visual-test/question', item.id, 1]" preserveQueryParams preserveFragment class="button is-small is-primary is-outlined">
+          View
         </a>
       </td>
     </tr>

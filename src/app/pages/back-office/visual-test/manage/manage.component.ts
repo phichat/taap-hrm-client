@@ -1,11 +1,13 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Choice } from '../models/choice';
 import { ManageService } from './manage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { QuestionListModel, Question } from '../models/question';
+import { QuestionListModel, Question, QuestionModel } from '../models/question';
 import { ToastrService } from 'ngx-toastr';
+import * as $ from 'jquery';
+import 'datatables.net-dt';
 
 class answerModel {
 	value: string;
@@ -24,6 +26,7 @@ export class ManageComponent implements OnInit {
 	isNewQeustion: boolean = false;
 	isModified: string;
 	QuestionList = new Array<QuestionListModel>();
+	dataTable: any;
 
 	@ViewChild('questionInput') questionInput: ElementRef;
 
@@ -32,7 +35,8 @@ export class ManageComponent implements OnInit {
 		private activeRoute: ActivatedRoute,
 		private router: Router,
 		private manageService: ManageService,
-		private toastr: ToastrService
+		private toastr: ToastrService,
+		private chRef: ChangeDetectorRef
 	) {
 	}
 
@@ -61,8 +65,10 @@ export class ManageComponent implements OnInit {
 			this.resetQuestionSetForm();
 			this.mode = x['mode'];
 			if (this.mode == 'R') {
-				this.manageService.getQuestionSet(x['id']).then(x => {
+				this.manageService.getQuestionSet(x['id']).subscribe(res => {
+					const x = res.json();
 					this.QuestionList = x.questionList;
+					this.onDetectDataTable();
 					this.QuestionFG.patchValue({
 						id: x.id,
 						questionSet: x.questionSet,
@@ -71,6 +77,21 @@ export class ManageComponent implements OnInit {
 				});
 			}
 		})
+	}
+
+	onDetectDataTable() {
+
+		const table: any = $('table');
+
+		if ($.fn.DataTable.isDataTable('table')) {
+			this.dataTable = table.DataTable();
+			this.dataTable.destroy();
+		}
+		this.chRef.detectChanges();
+
+		this.dataTable = $('table').DataTable({
+			'scrollY': true
+		});
 	}
 
 	private setItemFormArray(array: any[], formControl: string) {
@@ -95,7 +116,7 @@ export class ManageComponent implements OnInit {
 	createQuestionFrom(): FormGroup {
 		return this.fb.group({
 			id: new FormControl(0),
-			questionSetId: new FormControl(0, Validators.required),
+			// questionSetId: new FormControl(0, Validators.required),
 			question: new FormControl(null, Validators.required),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
@@ -109,7 +130,7 @@ export class ManageComponent implements OnInit {
 	createChoice(): FormGroup {
 		return this.fb.group({
 			id: new FormControl(0),
-			questionId: new FormControl(0),
+			// questionId: new FormControl(0),
 			choice: new FormControl(null, Validators.required),
 			answerChoice: new FormControl(1, Validators.required),
 			img: new FormControl(null),
@@ -209,11 +230,13 @@ export class ManageComponent implements OnInit {
 		this.Choices = this.choice;
 		this.Choices = this.fb.array([this.createChoice()]);
 
-		this.manageService.getQuestion(questionId.toString()).then(async res => {
-			await this.setItemFormArray(res.choice, 'choice');
+		this.manageService.getQuestion(questionId.toString()).subscribe(x => {
+			// .then(async res => {
+			const res = x.json();
+			this.setItemFormArray(res.choice, 'choice');
 			this.addAnswer(res.choice);
 			this.Question = this.question;
-			await this.Question.reset(res);
+			this.Question.reset(res);
 			this.isModified = 'R';
 			this.isNewQeustion = true;
 		})
@@ -228,16 +251,16 @@ export class ManageComponent implements OnInit {
 			updateUserPosi
 		}
 
-		this.manageService.updateActiveQuestion(from).then(x => {
+		this.manageService.updateActiveQuestion(from).subscribe(() => {
 			this.QuestionList
 				.filter((x, index) => index == i)
 				.map(x => x.isActive = isActive);
 
 			this.toastr.success(`${msg} complete!`, msg);
 
-		}, (err: HttpErrorResponse) => {
+		}, (err: Response) => {
 			event.target.checked = (e == 1 ? true : false);
-			this.toastr.error(err.message, msg);
+			this.toastr.error(err.statusText, msg);
 		})
 	}
 
@@ -248,7 +271,7 @@ export class ManageComponent implements OnInit {
 				this.manageService.deleteChoice(c.id).then(x => {
 					this.toastr.success('Delete choice complete!');
 
-				}, (err: HttpErrorResponse) => {
+				}, (err: Response) => {
 					this.toastr.error(err.statusText, 'Delete choice fail!');
 					return;
 				})
@@ -265,24 +288,25 @@ export class ManageComponent implements OnInit {
 	}
 
 	onSave(f: any) {
-
 		if (this.isModified == 'C') {
-			this.manageService.createQuestion(this.QuestionFG.value).then(x => {
+			this.manageService.createQuestion(this.QuestionFG.value).subscribe(res => {
+				const x: QuestionModel = res.json();
 				this.toastr.success('Save complete!');
 				this.onComplete();
 
 				if (this.mode == 'C') {
-					this.router.navigate(['/career/visual-test/manage', 'R', x.questionSetId])
+					this.router.navigate(['/back-office/visual-test/manage', 'R', x.questionSetId])
 				} else {
 					this.QuestionList.push(x);
+					this.onDetectDataTable();
 				}
 
-			}, (err: HttpErrorResponse) => {
+			}, (err: Response) => {
 				this.toastr.error(err.statusText)
 			});
 
 		} else if (this.isModified == 'R') {
-			this.manageService.updateQuestion(this.QuestionFG.value).then(() => {
+			this.manageService.updateQuestion(this.QuestionFG.value).subscribe(() => {
 				this.toastr.success('Update complete!');
 				let q: Question = this.QuestionFG.get('question').value;
 				this.QuestionList
@@ -292,7 +316,7 @@ export class ManageComponent implements OnInit {
 						x.imgName = q.imgName;
 					});
 				this.onComplete();
-			}, (err: HttpErrorResponse) => {
+			}, (err: Response) => {
 				this.toastr.error(err.statusText)
 			});
 		}
@@ -301,14 +325,14 @@ export class ManageComponent implements OnInit {
 	onUpdateQuestionSet() {
 		const fg = this.QuestionFG.value;
 		const from = {
-			id: fg.questionSetId,
+			id: fg.id,
 			questionSet: fg.questionSet,
 			timeOut: fg.timeOut,
 			updateUserPosi
 		}
-		this.manageService.updateQuestionSet(from).then(x => {
+		this.manageService.updateQuestionSet(from).subscribe(() => {
 			this.toastr.success('Update complete!');
-		}, (err: HttpErrorResponse) => {
+		}, (err: Response) => {
 			this.toastr.error(err.statusText);
 		});
 	}
@@ -333,6 +357,5 @@ export class ManageComponent implements OnInit {
 		}
 		this.Choices.push(this.createChoice())
 		this.Answer = new Array<answerModel>();
-		// this.addAnswer();
 	}
 }

@@ -196,9 +196,9 @@
 
 					</div>
 
-					<a class="button is-small is-primary" (click)="addNewChoice()">
+					<button type="button" class="button is-small is-primary" (click)="addNewChoice()">
 						<i class="fas fa-plus-circle fa-spin"></i>&nbsp;Add Choice
-					</a>
+					</button>
 				</div>
 
 				<div class="is-divider" data-content="- O -"></div>
@@ -217,6 +217,7 @@
 									<div class="control">
 										<div class="select is-fullwidth">
 											<select formControlName="answer" required>
+												<option selected ></option>
 												<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
 											</select>
 										</div>

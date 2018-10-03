@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { Question, QuestionSetRandom } from '../models/question';
-import { Choice } from '../models/choice';
-import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from './question.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-
+import { CountdownComponent } from 'ngx-countdown';
+import { Question, QuestionSetRandom } from '../../../back-office/visual-test/models/question';
 
 @Component({
     selector: 'app-question',
@@ -18,17 +15,20 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private router: Router,
         private activeRoute: ActivatedRoute,
         private questionService: QuestionService
     ) { }
 
     @ViewChild('stepsContent') stepsContent: ElementRef;
+    @ViewChild('btnSubmit') btnSubmit: ElementRef;
+    @ViewChild(CountdownComponent) counterTimeOut: CountdownComponent;
 
     showNextButton: boolean = true;
     showPreviousButton: boolean = false;
 
     choiceYourChoose: number = 0;
+    timeOutMinutes: any;
+    isFinished: boolean = false;
 
     private getRandomSubscrip: Subscription;
 
@@ -56,6 +56,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
     })
 
     QuestionFG: FormGroup = this.fb.group({
+        questionSet: new FormControl(null),
+        timeOut: new FormControl(null),
         QuestionArr: this.fb.array([this._questionArr])
     });
 
@@ -86,8 +88,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
                     const x: QuestionSetRandom = res.json();
 
                     this.questionModel = x.question;
-                    this.myTimeout = x.timeOut;
+                    
+                    this.timeOutMinutes = x.timeOut * 60; // หน่วยเป็น Seconds
+                    const timeOutMilliseconds = (x.timeOut * 60000) + 60000 // หน่วยเป็น Milliseconds เพิ่มให้ delay 1 นาที
                     this.QuestionFG = this.fb.group({
+                        questionSet: x.questionSet,
+                        timeOut: x.timeOut,
                         QuestionArr: this.setQuestions()
                     });
 
@@ -99,8 +105,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
                         this.endTime = new Date();
                         alert(`Testing time out! ${hours}:${min}`);
                         this.setAnswer();
-                    }, x.timeOut * 60000);
-                    // Minutes to Milliseconds
+                    }, timeOutMilliseconds); 
                 });
 
         });
@@ -153,6 +158,11 @@ export class QuestionComponent implements OnInit, OnDestroy {
         });
 
         this.choiceYourChoose = f.length;
+        if (this.choiceYourChoose == this.getQuestionArr(this.QuestionFG).length) {
+            setTimeout(() => {
+                this.btnSubmit.nativeElement.focus();
+            }, 100);
+        }
 
         this.onNextStep();
     }
@@ -160,6 +170,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     setAnswer() {
 
         clearTimeout(this.myTimeout);
+        this.counterTimeOut.stop();
 
         const q = this.QuestionFG.value.QuestionArr;
         let f: any[] = [];
@@ -167,7 +178,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
             const choice = x.ChoiceArr.filter(f1 => f1.isSelect == true)[0] || null;
             f.push({
                 questionId: x.id,
-                answer: choice != null ? choice.id : null
+                answer: choice != null ? choice.id : 0
             });
         });
 
@@ -182,14 +193,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
             questions: f
         }
 
-        this.questionService.verifyQuestion(form).then(x => {
-            this.router.navigate(['/career/visual-test/verify', this.questionSetId, this.userId])
-        }, (err: HttpErrorResponse) => {
-            alert(err.message);
+        this.questionService.verifyQuestion(form).subscribe((x) => {
+            this.isFinished = true;
+        }, (err: Response) => {
+            alert(err.statusText);
         });
     }
 
-    diff_minutes(dt2, dt1) {
+    private diff_minutes(dt2, dt1) {
         let diff = (dt2.getTime() - dt1.getTime()) / 1000;
         diff /= 60;
         return Math.abs(Math.round(diff));
@@ -199,7 +210,6 @@ export class QuestionComponent implements OnInit, OnDestroy {
         if (confirm('Confirm submit visula test ?')) {
             this.setAnswer();
         }
-
     }
 
     onPreviousStep() {

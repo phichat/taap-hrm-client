@@ -1,4 +1,3 @@
-export interface LoaderState {
-    show: boolean
-}
-
+// export interface LoaderState {
+//     show: boolean
+// }

@@ -44,7 +44,36 @@ export class HttpService extends Http {
                 }),
                 finalize(() => this.onEnd())
             );
-            
+    }
+
+    post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
+        this.showLoader();
+
+        return super.post(this.getFullUrl(url), body, this.requestOptions(options))
+            .pipe(
+                catchError(this.onCatch),
+                tap((res: Response) => {
+                    this.onSuccess(res);
+                }, (error: any) => {
+                    this.onError(error);
+                }),
+                finalize(() => this.onEnd())
+            )
+    }
+
+    put(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
+        this.showLoader();
+
+        return super.put(this.getFullUrl(url), body, this.requestOptions(options))
+            .pipe(
+                catchError(this.onCatch),
+                tap((res: Response) => {
+                    this.onSuccess(res);
+                }, (error: any) => {
+                    this.onError(error);
+                }),
+                finalize(() => this.onEnd())
+            )
     }
 
     private requestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
@@ -85,6 +114,8 @@ export class HttpService extends Http {
     }
 
     private hideLoader(): void {
-        this.loaderService.hide();
+        setTimeout(() => {
+            this.loaderService.hide();
+        }, 500);
     }
 }
