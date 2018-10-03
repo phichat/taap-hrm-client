@@ -90,7 +90,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
                     this.questionModel = x.question;
 
                     this.timeOutMinutes = x.timeOut * 60; // หน่วยเป็น Seconds
-                    const timeOutMilliseconds = (x.timeOut * 60000) + 60000 // หน่วยเป็น Milliseconds เพิ่มให้ delay 1 นาที
+                    const timeOutMilliseconds = (x.timeOut * 60000) // หน่วยเป็น Milliseconds เพิ่มให้ delay 30 วินาที
                     this.QuestionFG = this.fb.group({
                         questionSet: x.questionSet,
                         timeOut: x.timeOut,
@@ -164,18 +164,17 @@ export class QuestionComponent implements OnInit, OnDestroy {
                 this.btnSubmit.nativeElement.focus();
             }, 100);
         }
-
         this.onNextStep();
     }
 
-    setAnswer() {
 
+    setAnswer() {
         clearTimeout(this.myTimeout);
         this.counterTimeOut.stop();
 
-        const q = this.QuestionFG.value.QuestionArr;
+        const q = this.QuestionFG.value;
         let f: any[] = [];
-        q.map(x => {
+        q.QuestionArr.map(x => {
             const choice = x.ChoiceArr.filter(f1 => f1.isSelect == true)[0] || null;
             f.push({
                 questionId: x.id,
@@ -185,12 +184,13 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
         const sTime = new Date(this.startTime);
         const eTime = this.endTime ? new Date(this.endTime) : new Date();
+        const timeUse = this.diff_minutes(sTime, eTime);
 
         let form: any = {
-            timeUse: this.diff_minutes(sTime, eTime),
+            timeUse: timeUse,
             questionSetId: this.questionSetId,
             userId: this.userId,
-            timeOut: this.myTimeout,
+            timeOut: q.timeOut,
             questions: f
         }
 
