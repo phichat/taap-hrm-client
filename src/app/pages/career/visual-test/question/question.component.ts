@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { CountdownComponent } from 'ngx-countdown';
 import { Question, QuestionSetRandom } from '../../../back-office/visual-test/models/question';
 
-
 @Component({
     selector: 'app-question',
     templateUrl: './question.component.html',
