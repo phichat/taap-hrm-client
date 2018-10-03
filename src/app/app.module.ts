@@ -10,7 +10,7 @@ import { routes } from './app.routing';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
-import { Http, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -34,9 +34,6 @@ import { Http, HttpModule } from '@angular/http';
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 
-    },
-    {
-      provide: Http
     }
   ],
   bootstrap: [AppComponent]
