@@ -7,7 +7,8 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { QuestionListModel, Question, QuestionModel } from '../models/question';
 import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
-import 'datatables.net-dt';
+import 'datatables.net';
+import 'datatables.net-bs';
 
 class answerModel {
 	value: string;

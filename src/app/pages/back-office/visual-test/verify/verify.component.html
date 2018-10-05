@@ -1,4 +1,111 @@
-<div class="content">
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>ตรวจแบบทดสอบ</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="index.html">หน้าหลัก</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a>แบบทดสอบ</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<strong>ตรวจแบบทดสอบ</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
+	</div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="ibox ">
+		<div class="ibox-content">
+			<div class="row">
+				<div class="col-sm-6 b-r">
+					<h3 class="m-t-none m-b">รายละเอียดผู้ทดสอบ</h3>
+					<ul class="list-group clear-list m-t">
+						<li class="list-group-item fist-item">
+							<span class="pull-right">
+								{{result.fullName}}
+							</span>
+							<strong>ชื่อ-นามสกุล ผู้ทำทดสอบ : </strong>
+						</li>
+						<li class="list-group-item">
+							<span class="pull-right">
+								{{result.questionSet}}
+							</span>
+							<strong>ชุดแบบทดสอบ : </strong>
+						</li>
+						<li class="list-group-item">
+							<span class="pull-right">
+								{{result.timeOut}} นาที
+							</span>
+							<strong>กำหนดเวลาการทำแบบทดสอบ : </strong>
+						</li>
+						<li class="list-group-item">
+							<span class="pull-right">
+								{{result.timeUse}} นาที
+							</span>
+							<strong>เวลาที่ใช้ในการทำแบบทดสอบ : </strong>
+						</li>
+					</ul>
+
+				</div>
+				<div class="col-sm-6">
+					<h3>ผลทดสอบ</h3>
+					<div class="row text-center">
+						<div class="col-xs-4">
+							<p class="text-success">ทั้งหมด</p>
+							<h1 class="no-margins">{{result.total}}</h1>
+						</div>
+
+						<div class="col-xs-4">
+							<p class="text-primary">ผ่าน</p>
+							<h1 class="no-margins">{{result.pass}}</h1>
+						</div>
+						<div class="col-xs-4">
+							<p class="text-danger">ไม่ผ่าน</p>
+							<h1 class="no-margins">{{result.fail}}</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="ibox">
+		<div class="ibox-content">
+			<table class="table is-fullwidth is-small">
+				<thead>
+					<tr>
+						<th>ลำดับ</th>
+						<th>รายการคำถาม</th>
+						<th>คำตอบที่เลือก</th>
+						<th>คำตอบที่ถูกต้อง</th>
+						<th>ผลทดสอบ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of resultDetail; let i=index">
+						<td>{{i+1}}</td>
+						<td>{{item.testedQuestion}}</td>
+						<td>{{item.testedAnswer}}</td>
+						<td>{{item.answer}}</td>
+						<td>
+							<div [ngSwitch]="item.result">
+								<span *ngSwitchCase="true" class="label label-primary">Pass</span>
+								<span *ngSwitchDefault class="label label-danger">Fail</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="content">
 	<h2>Visual test result</h2>
 	<div class="columns">
 		<div class="column">
@@ -62,4 +169,4 @@
 			</tr>
 		</tbody>
 	</table>
-</div>
+</div> -->

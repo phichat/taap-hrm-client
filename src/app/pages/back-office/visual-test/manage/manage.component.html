@@ -1,245 +1,197 @@
-<div class="container">
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>ชุดแบบทดสอบ</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="index.html">หน้าหลัก</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a>แบบทดสอบ</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<strong>ชุดแบบทดสอบ</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
 
+	</div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
 	<form action="" [formGroup]="QuestionFG" #f="ngForm" (ngSubmit)="onSave(f.value)">
 
-		<h1 class="title is-3 is-spaced">Visual Test: Manage</h1>
-
-		<!-- <h1>Visual Test: Manage</h1> -->
-
-		<div class="card">
-			<header class="card-header">
-				<p class="card-header-title is-uppercase is-size-5 has-text-weight-bold">
-					Question set
-				</p>
-			</header>
-			<div class="card-content">
-				<div class="columns is-multiline">
-					<div class="column is-three-quarters">
-						<div class="field is-horizontal">
-							<div class="field-label is-normal">
-								<label class="label has-text-weight-semibold">
-									Set : <span class="is-require">*</span>
-								</label>
-							</div>
-							<div class="field-body">
-								<div class="field">
-									<div class="control">
-										<input class="input" formControlName="questionSet" type="text" required>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="field is-horizontal">
-							<div class="field-label is-normal">
-								<label class="label has-text-weight-semibold">
-									Time out : <span class="is-require">*</span>
-								</label>
-							</div>
-							<div class="field-body">
-								<div class="field">
-									<div class="control has-icons-right">
-										<input class="input" formControlName="timeOut" type="number" required>
-										<span class="icon is-medium is-right">
-											min
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
+		<div class="ibox ">
+			<div class="ibox-title"></div>
+			<div class="ibox-content float-e-margins">
+				<div class="form-group row">
+					<label class="col-md-2 col-form-label">
+						ชุดแบบทดสอบ : <span class="is-require">*</span>
+					</label>
+					<div class="col-md-4">
+						<input class="form-control" formControlName="questionSet" type="text" required>
 					</div>
-					<div class="column">
-						<button type="button" class="button is-primary" (click)="onCreateQuestion();" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
-							<i class="fas fa-plus-circle fa-spin"></i>&nbsp;New question
+				</div>
+				<div class=" row">
+					<label class="col-md-2 col-form-label">
+						เวลาในการทดสอบ (นาที) : <span class="is-require">*</span>
+					</label>
+
+					<div class="col-md-4">
+						<input class="form-control" formControlName="timeOut" type="number" required>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-primary" (click)="onCreateQuestion();" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
+							<i class="fa fa-plus-circle fa-spin"></i>&nbsp;สร้างคำถาม
 						</button>
 					</div>
 				</div>
-
-				<div class="is-divider" data-content="- O -"></div>
-
-				<table class="table is-striped is-narrow is-fullwidth">
-					<thead>
-						<tr>
-							<th>No.</th>
-							<th>Question</th>
-							<th>Image Name</th>
-							<th>Active</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let item of QuestionList; let i=index;">
-							<td>{{i+1}}</td>
-							<td>{{item.question}}</td>
-							<td>{{item.imgName}}</td>
-							<td [ngSwitch]="item.isActive">
-								<div class="field">
-									<input [id]="'isActive'+i" type="checkbox" class="switch is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
-									 (change)="onActiveQuestion(item.isActive, i, item.id, $event)">
-									<label [for]="'isActive'+i"></label>
-								</div>
-							</td>
-							<td>
-								<a (click)="onEditQuestion(item.id)" class="button is-small is-link is-outlined">
-									Edit
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="hr-line-dashed"></div>
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="text-center">ลำดับ</th>
+									<th>รายการคำถาม</th>
+									<th>รูป</th>
+									<th class="text-center">สถานะ</th>
+									<th class="text-center"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of QuestionList; let i=index;">
+									<td class="text-center">{{i+1}}</td>
+									<td>{{item.question}}</td>
+									<td>{{item.imgName}}</td>
+									<td class="text-center" [ngSwitch]="item.isActive">
+										<div class="field">
+											<input [id]="'isActive'+i" type="checkbox" class="switch is-medium is-rounded" [checked]="item.isActive == 1 ? 'checked' : ''"
+											 (change)="onActiveQuestion(item.isActive, i, item.id, $event)">
+											<label [for]="'isActive'+i"></label>
+										</div>
+									</td>
+									<td class="text-center">
+										<a (click)="onEditQuestion(item.id)" class="btn btn-xs btn-success btn-outline">
+											แก้ไข
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<br>
 
-		<article formGroupName="question" *ngIf="isNewQeustion" class="message is-link is-shady">
-			<div class="message-header">
-				<p></p>
-				<a class="delete" (click)="onCloseQuestion()"></a>
+		<div class="ibox" formGroupName="question" *ngIf="isNewQeustion">
+
+			<div class="ibox-title">
+				<h5>สร้างคำถาม</h5>
+				<div class="ibox-tools">
+					<a class="close-link" (click)="onCloseQuestion()">
+						<i class="fa fa-times"></i>
+					</a>
+				</div>
 			</div>
-			<div class="content message-body">
-				<h2 class="question-title">Question</h2>
-				<div class="columns is-multiline">
-					<div class="column is-half">
-						<div class="field is-horizontal">
-							<div class="field-label is-normal">
-								<label class="label has-text-weight-semibold">
-									Question : <span class="is-require">*</span>
-								</label>
-							</div>
-							<div class="field-body">
-								<div class="field">
-									<div class="control">
-										<input #questionInput class="input" formControlName="question" type="text" required>
-									</div>
-								</div>
+			<div class="ibox-content float-e-margins">
+				<h2 class="question-title m-b-md">Question</h2>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="row form-group">
+							<label for="" class="col-md-3 control-label">
+								คำถาม : <span class="is-require">*</span>
+							</label>
+							<div class="col-md-9">
+								<input #questionInput class="form-control" formControlName="question" type="text" required>
 							</div>
 						</div>
 					</div>
-					<div class="column is-half">
-						<div class="field is-horizontal">
-							<div class="field-label is-normal">
-								<label class="label has-text-weight-semibold">Image :</label>
-							</div>
-							<div class="field-body">
-								<div class="field is-grouped">
-									<div class="control">
-										<label for="questionfileimg" class="find-img">
-											<img [src]="question.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="280px"
-											 width="280px">
-											<span>{{question.get('imgName').value || 'Choose a image ...'}}</span>
-										</label>
-										<input id="questionfileimg" class="file-input" type="file" (change)="changeQuestionImg($event)" hidden>
-									</div>
-								</div>
+					<div class="col-sm-6 b-l">
+						<label for="" class="col-md-3">เลือกรูป :</label>
+						<div class="col-md-6">
+							<div class="img-preview img-preview-md">
+								<label for="questionfileimg" style="cursor: pointer;">
+									<img [src]="question.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" width="100%">
+								</label>
+								<input id="questionfileimg" class="file-input hidden" type="file" (change)="changeQuestionImg($event)">
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="is-divider" data-content="- O -"></div>
+				<div class="hr-line-dashed"></div>
 
 				<h2 class="question-title">Choices</h2>
 				<div formArrayName="choice">
-					<div class="" *ngFor="let choices of choice.controls; let i=index">
-						<div class="columns is-multiline is-mobile section-choice" [formGroupName]="i">
+					<div *ngFor="let choices of choice.controls; let i=index">
+						<div class="row section-choice" [formGroupName]="i">
 
-							<div class="column is-four-fifths">
-								<div class="tags has-addons">
-									<span class="tag is-danger">Choice no. : {{choices.get('answerChoice').value}}</span>
-									<a class="tag is-delete" (click)="onDelChoice(i)"></a>
+							<div class="col-sm-12 form-group">
+								<button type="button" class="btn btn-xs btn-outline btn-danger" (click)="onDelChoice(i)">
+									<i class="fa fa-times"></i>&nbsp;ลบตัวเลือกที่ {{choices.get('answerChoice').value}}
+								</button>
+							</div>
+
+							<div class="col-md-6">
+								<label for="" class="col-md-3 col-form-label">
+									ตัวเลือกที่ {{choices.get('answerChoice').value}} : <span class="is-require">*</span>
+								</label>
+								<div class="col-md-9 form-group">
+									<input class="form-control" formControlName="choice" type="text" required>
+								</div>
+							</div>
+							<div class="col-md-6" style="border-left: 1px solid rgb(204, 204, 204);">
+								<!--  -->
+								<label for="" class="col-md-3 col-form-label">
+									เลือกรูป :
+								</label>
+								<div class="col-md-6 form-group">
+									<label [for]="'choicefileimg'+i" style="cursor: pointer;">
+										<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" width="100%">
+									</label>
+									<input [id]="'choicefileimg'+i" class="hidden" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)">
 								</div>
 							</div>
 
-							<div class="column is-half">
-
-								<div class="field is-horizontal">
-									<div class="field-label is-normal">
-										<label class="label has-text-weight-semibold">
-											Choice : <span class="is-require">*</span>
-										</label>
-									</div>
-									<div class="field-body">
-										<div class="field">
-											<div class="control">
-												<input class="input" formControlName="choice" type="text" required>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="column is-half">
-								<div class="field is-horizontal">
-									<div class="field-label is-normal">
-										<label class="label has-text-weight-semibold">Image :</label>
-									</div>
-
-									<div class="field-body">
-										<div class="field is-grouped">
-											<div class="control">
-												<label [for]="'choicefileimg'+i" class="find-img">
-													<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" height="220px"
-													 width="220px">
-													<span>{{choices.get('imgName').value || 'Choose a image ...'}}</span>
-												</label>
-												<input [id]="'choicefileimg'+i" class="file-input" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)"
-												 hidden>
-											</div>
-											<div class="control">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
-						<!-- <div style="margin-left: 6rem" class="is-divider" data-content="-- o --"></div> -->
-
 					</div>
 
-					<button type="button" class="button is-small is-primary" (click)="addNewChoice()">
-						<i class="fas fa-plus-circle fa-spin"></i>&nbsp;Add Choice
+					<button type="button" class="btn btn-xs btn-info" (click)="addNewChoice()">
+						<i class="fa fa-plus-circle fa-spin"></i>&nbsp;เพิ่มตัวเลือก
 					</button>
 				</div>
 
-				<div class="is-divider" data-content="- O -"></div>
+				<div class="hr-line-dashed"></div>
 
-				<h2 class="question-title">Answer</h2>
-				<div class="columns is-multiline">
-					<div class="column is-half">
-						<div class="field is-horizontal">
-							<div class="field-label is-normal">
-								<label class="label has-text-weight-semibold">
-									Answer : <span class="is-require">*</span>
-								</label>
-							</div>
-							<div class="field-body">
-								<div class="field is-narrow">
-									<div class="control">
-										<div class="select is-fullwidth">
-											<select formControlName="answer" required>
-												<option selected ></option>
-												<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+				<h2 class="question-title m-b-md">Answer</h2>
+				<div class="row">
+					<label class="col-md-2">
+						คำตอบ : <span class="is-require">*</span>
+					</label>
+					<div class="col-md-4">
+						<select class="form-control" formControlName="answer" required>
+							<option selected></option>
+							<option *ngFor="let item of Answer;" [value]="item.value">{{item.text}}</option>
+						</select>
 					</div>
 				</div>
-
 			</div>
-		</article>
-
-		<div class="field is-grouped is-grouped-right">
-			<p class="control">
-				<button type="button" class="button is-text" (click)="resetQuestionForm()">Cancel</button>
-			</p>
-			<p class="control" [ngSwitch]="mode">
-				<button *ngIf="!isNewQeustion && mode =='R'" type="button" class="button is-link" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid"
-				 (click)="onUpdateQuestionSet()">Save</button>
-				<button *ngIf="isNewQeustion || mode == 'C'" type="submit" class="button is-link" [disabled]="QuestionFG.invalid">Save</button>
-			</p>
 		</div>
+
+		<div class="row m-b-md" [ngSwitch]="mode">
+			<div class="col-sm-8"></div>
+			<div class="col-sm-2">
+				<button type="button" class="btn btn-outline btn-default btn-block" (click)="resetQuestionForm()">ยกเลิก</button>
+			</div>
+			<div class="col-sm-2">
+				<button *ngIf="!isNewQeustion && mode =='R'" type="button" class="btn btn-success btn-block" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid"
+				 (click)="onUpdateQuestionSet()">บันทึก</button>
+				<button *ngIf="isNewQeustion || mode == 'C'" type="submit" class="btn btn-success btn-block" [disabled]="QuestionFG.invalid">บันทึก</button>
+			</div>
+		</div>
+
 	</form>
 </div>

@@ -1,0 +1,16 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{pageInfo?.title}}</h2>
+        <ol class="breadcrumb">
+            <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                    <a href='javascript:void(0)'>{{url.title}}</a>
+                </li>
+
+                <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li>
+            </ng-template>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>

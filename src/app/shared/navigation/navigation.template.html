@@ -1,0 +1,48 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <!-- <div class="profile-element" dropdown>
+                    <img alt="image" class="" src="assets/images/logo.png" style="width:100%">
+                    <a dropdownToggle>
+                        <span class="block m-t-xs">
+                            <strong class="font-bold">Administrator</strong>
+                        </span>
+                        <span class="text-muted text-xs block">Position
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="animated fadeInRight dropdown-menu" *dropdownMenu>
+                        <li>
+                            <a href="#">Profile</a>
+                        </li>
+                    </ul>
+                </div> -->
+                <div class="logo-element">
+                    IN+
+                </div>
+            </li>
+
+            <li [ngClass]="{active: activeRoute('visual-test')}">
+                <a href="#">
+                    <span class="nav-label">แบบทดสอบ</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li [ngClass]="{active: activeRoute('question-set')}">
+                        <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active"
+                            routerLink="/back-office/visual-test/question-set">
+                            <i class="fa fa-list"></i>&nbsp;&nbsp;ชุดแบบทดสอบ
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active"
+                            routerLink="/back-office/visual-test/verify/8/1">
+                            <i class="fa fa-question"></i>&nbsp;&nbsp;ตรวจแบบทดสอบ&nbsp;<span class="has-text-danger">(e.g.)</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

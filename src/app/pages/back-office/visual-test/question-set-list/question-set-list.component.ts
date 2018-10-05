@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/core/http.service';
 import * as $ from 'jquery';
-import 'datatables.net-dt';
+import 'datatables.net';
+import 'datatables.net-bs';
 
 @Injectable({
   providedIn: 'root'

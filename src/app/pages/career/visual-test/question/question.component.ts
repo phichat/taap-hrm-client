@@ -113,6 +113,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.getRandomSubscrip.unsubscribe();
+        clearTimeout(this.myTimeout);
     }
 
     private setQuestions() {

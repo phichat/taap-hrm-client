@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './shared/layout/layout.component';
+import { BasicLayoutComponent } from './shared/layouts/basicLayout.component';
 
 export const routes: Routes = [
     {
         path: '', redirectTo: '/starter', pathMatch: 'full'
     },
     {
-        path: 'starter', component: LayoutComponent, loadChildren: './pages/starter/starter.module#StarterModule'
+        path: 'starter', component: BasicLayoutComponent, loadChildren: './pages/starter/starter.module#StarterModule'
     },
     {
-        path: 'back-office', component: LayoutComponent,
+        path: 'back-office', component: BasicLayoutComponent,
         children: [
             {
                 path: 'visual-test',

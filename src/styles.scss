@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css?family=Kanit:300,400,500,600,700&subset=thai");
+@import "assets/styles/style";
 
 .is-require {
     color: red;
@@ -10,22 +11,10 @@ hr.is-dashed {
     background-color: unset;
 }
 
-table.dataTable {
-    .button.is-small {
-        height: 1rem !important;
-    }
-
-    .field {
-        .switch[type=checkbox]+label {
-            padding-top: .1rem !important;
-        }
-
-        .switch[type=checkbox]:checked+label::after {
-            left: 1.925rem;
-        }
-
-        label::before {
-            height: 1.3rem !important;
-        }
-    }
+table tr td {
+    padding-bottom: 4px !important;
 }
+
+// .switch[type=checkbox].is-medium+label::before, .switch[type=checkbox].is-medium+label:before {
+//     height: 1.875rem !important;
+// }
