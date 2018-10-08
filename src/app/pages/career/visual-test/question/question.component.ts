@@ -209,7 +209,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        if (confirm('Confirm submit visula test ?')) {
+        if (confirm('ต้องการยืนยันการส่งแบบทดสอบหรือไม่ ?')) {
             this.setAnswer();
         }
     }
@@ -238,6 +238,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
         for (let i = 0; i < content.length; i++) {
             let nextIndex = i + 1;
+            
             if (nextIndex == content.length) return;
 
             if (content[i].classList.contains('is-active')) {

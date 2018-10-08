@@ -1,13 +1,13 @@
-<form action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
-	<nav class="navbar is-transparent is-fixed-top">
-		<div id="navbarExampleTransparentExample" class="navbar-menu">
+<form class="content" action="" [formGroup]="QuestionFG" #from="ngForm" (ngSubmit)="onSubmit()">
+	<nav class="navbar is-fixed-top">
+		<div class="navbar-menu">
 			<div class="navbar-start">
 				<div class="navbar-item">
 					<nav class="level">
 						<div class="level-item">
 							<div>
-								<p class="heading">Question Set</p>
-								<p class="title is-4">{{QuestionFG.get('questionSet').value}}</p>
+								<p class="heading">ชุดคำถาม</p>
+								<p class="title is-3">{{QuestionFG.get('questionSet').value}}</p>
 							</div>
 						</div>
 					</nav>
@@ -17,9 +17,9 @@
 			<div class="navbar-end">
 				<div class="navbar-item">
 					<nav class="level">
-						<div class="level-item">
+						<div class="level-item text-center">
 							<div>
-								<p class="heading">Your choose</p>
+								<p class="heading">จำนวนที่เลือก</p>
 								<p class="title">{{choiceYourChoose || 0}} of {{getQuestionArr(QuestionFG).length}}</p>
 							</div>
 						</div>
@@ -27,9 +27,9 @@
 				</div>
 				<div class="navbar-item">
 					<nav class="level">
-						<div class="level-item has-text-centered">
+						<div class="level-item text-center">
 							<div>
-								<p class="heading">Time out</p>
+								<p class="heading">เวลาคงเหลือ</p>
 								<p class="title">
 									<countdown [config]="{leftTime: timeOutMinutes}">$!m!:$!s!</countdown>
 								</p>
@@ -42,24 +42,20 @@
 	</nav>
 
 	<div class="container is-fluid">
-		<div style="margin: 4.5rem 0 3.5rem 0;">
+		<div style="margin: 6rem 0 3rem 0;">
 			<div *ngIf="!isFinished" class="steps" id="stepsDemo">
 				<div #stepsContent class="steps-content" formArrayName="QuestionArr">
 					<div *ngFor="let questions of getQuestionArr(QuestionFG); let i=index" class="animated fadeInRight step-content has-text-centered"
 					 [ngClass]="{'is-active': i==0}">
 
-						<h3 class="is-size-4 has-text-left">{{i+1}}. {{questions.get('question').value}}</h3>
+						<h2 class="is-size-2 has-text-left">{{i+1}}. {{questions.get('question').value}}</h2>
 
 						<div class="columns is-variable bd-klmn-columns is-2" [formGroupName]="i">
 							<div class="column"></div>
 							<div class="column is-5">
-								<div class="card question">
-									<div class="card-image">
-										<figure class="image is-5by3">
-											<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
-										</figure>
-									</div>
-								</div>
+								<figure class="image is-5by3">
+									<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
+								</figure>
 							</div>
 							<div class="column">
 							</div>
@@ -67,32 +63,31 @@
 
 						<hr class="is-dashed">
 
-						<div class="columns">
-							<div class="column ">
-								<div class="columns is-gapless is-multiline is-mobile">
-									<div class="column is-one-third" *ngFor="let choices of getChoiceArr(questions); let j1=index">
-										<div class="card is-shady">
-											<div class="card-image">
-												<figure class="image">
+						<div class="row">
+							<div class="col-md-6 b-r">
+								<div class="row">
+									<div class="col-md-4" *ngFor="let choices of getChoiceArr(questions); let j1=index">
+										<div class="ibox">
+											<div class="ibox-content product-box">
+												<div class="product-imitation">
 													<img max-width="220px" max-height="220px" [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/480x480.png'"
 													 alt="Placeholder image">
-												</figure>
-											</div>
-											<div style="padding: .1rem" class="card-content control has-text-centered">
-												{{i+1}}.{{j1+1}}
+												</div>
+												<h3>{{i+1}}.{{j1+1}}</h3>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="is-divider-vertical" data-content="CHOICES"></div>
-							<div class="column">
-								<div class="columns" *ngFor="let choices of getChoiceArr(questions); let j=index;">
-									<div class="column has-text-left">
-										<div class="field">
-											<input class="is-checkradio" type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)" id="{{i+1}}.{{j+1}}">
+							<div class="col-md-6">
+								<div class="row" *ngFor="let choices of getChoiceArr(questions); let j=index;">
+									<div class="col-xs-12 has-text-left">
+										<div class="field m-b-md">
+											<input class="is-checkradio is-large" type="radio" name="isSlect{{i+1}}" (click)="setIsSelected(j, questions)"
+											 id="{{i+1}}.{{j+1}}">
 											<label for="{{i+1}}.{{j+1}}">{{i+1}}.{{j+1}} {{choices.get('choice').value}}</label>
 										</div>
+
 									</div>
 								</div>
 							</div>
@@ -100,24 +95,25 @@
 
 						<hr class="is-dashed">
 					</div>
-
 				</div>
+
+
 				<div class="steps-actions">
 					<div class="steps-action">
-						<a *ngIf="showPreviousButton" href="javaScript:void(0);" data-nav="previous" class="button is-light" (click)="onPreviousStep()">Previous</a>
+						<a *ngIf="showPreviousButton" href="javaScript:void(0);" data-nav="previous" class="btn btn-default" (click)="onPreviousStep()">ย้อนกลับ</a>
 					</div>
 					<div class="steps-action">
-						<a *ngIf="showNextButton" href="javaScript:void(0);" data-nav="next" class="button is-light" (click)="onNextStep()">Next</a>
-						<button #btnSubmit *ngIf="choiceYourChoose == getQuestionArr(QuestionFG).length" type="submit" class="button is-link">
-							Submit
+						<a *ngIf="showNextButton" href="javaScript:void(0);" data-nav="next" class="btn btn-default" (click)="onNextStep()">ถัดไป</a>
+						<button #btnSubmit *ngIf="choiceYourChoose == getQuestionArr(QuestionFG).length" type="submit" class="btn btn-success">
+							ส่งแบบทดสอบ
 						</button>
 					</div>
 				</div>
 			</div>
 
 			<div *ngIf="isFinished" style="padding-top: 3rem;" class="animated fadeInRight has-text-centered">
-				<h3 class="title is-3">Your testing is finished!</h3>
-				<h2 class="subtitle">Wait for confirmation that you have been appointment for an interview on your email.</h2>
+				<h2>ส่งแบบทดสอบสำเร็จ!</h2>
+				<h4>รอยืนยันการนัดสัมภาษณ์งาน ทางบริษัทจะส่งรายละเอียดแนบไปทางอีเมลของผู้สมัคร.</h4>
 			</div>
 		</div>
 	</div>

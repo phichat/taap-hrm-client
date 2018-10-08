@@ -1,12 +1,10 @@
 import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { VerifyModel, ResultDetail } from './verify.model';
-import { apiConfig } from 'src/app/app.config';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs';
-import { HttpService } from '../../../../core/http.service';
+import { HttpService } from 'src/app/core/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +34,6 @@ export class VerifyComponent implements OnInit {
     private verifyService: VerifyService,
     private chRef: ChangeDetectorRef
   ) { }
-
   dataTable: any;
   result = new VerifyModel();
   resultDetail = new Array<ResultDetail>();

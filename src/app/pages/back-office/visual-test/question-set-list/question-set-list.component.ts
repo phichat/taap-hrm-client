@@ -1,7 +1,6 @@
 import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { QuestionSetListModel } from './question-set-list.model';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/core/http.service';
 import * as $ from 'jquery';

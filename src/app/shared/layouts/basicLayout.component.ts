@@ -6,6 +6,7 @@ declare var jQuery: any;
 @Component({
     selector: 'basic',
     templateUrl: 'basicLayout.template.html',
+    styleUrls: ['./basicLayout.component.scss'],
     host: {
         '(window:resize)': 'onResize()'
     }

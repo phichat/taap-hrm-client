@@ -2,8 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@an
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Choice } from '../models/choice';
 import { ManageService } from './manage.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionListModel, Question, QuestionModel } from '../models/question';
 import { ToastrService } from 'ngx-toastr';
 import * as $ from 'jquery';
@@ -16,6 +15,7 @@ class answerModel {
 }
 
 const updateUserPosi = 1;
+
 
 @Component({
 	selector: 'app-manage',
@@ -268,12 +268,12 @@ export class ManageComponent implements OnInit {
 	onDelChoice(index: number) {
 		if (this.isModified == 'R') {
 			let c = this.choice.at(index).value;
-			if (confirm(`Confirm delete your choice ${c.answerChoice} ?`)) {
+			if (confirm(`ต้องการลบรายการ ตัวเลือกที่ ${c.answerChoice} หรือไม่ ?`)) {
 				this.manageService.deleteChoice(c.id).then(x => {
-					this.toastr.success('Delete choice complete!');
+					this.toastr.success(`ลบตัวเลือกที่ ${c.answerChoice} สำเร็จ!`);
 
 				}, (err: Response) => {
-					this.toastr.error(err.statusText, 'Delete choice fail!');
+					this.toastr.error(err.statusText, `ลบรายการไม่สำเร็จ!`);
 					return;
 				})
 			} else {
@@ -292,7 +292,7 @@ export class ManageComponent implements OnInit {
 		if (this.isModified == 'C') {
 			this.manageService.createQuestion(this.QuestionFG.value).subscribe(res => {
 				const x: QuestionModel = res.json();
-				this.toastr.success('Save complete!');
+				this.toastr.success('บันทึกสำเร็จ!');
 				this.onComplete();
 
 				if (this.mode == 'C') {
@@ -308,7 +308,7 @@ export class ManageComponent implements OnInit {
 
 		} else if (this.isModified == 'R') {
 			this.manageService.updateQuestion(this.QuestionFG.value).subscribe(() => {
-				this.toastr.success('Update complete!');
+				this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
 				let q: Question = this.QuestionFG.get('question').value;
 				this.QuestionList
 					.filter(x => x.id == q.id)
@@ -332,7 +332,7 @@ export class ManageComponent implements OnInit {
 			updateUserPosi
 		}
 		this.manageService.updateQuestionSet(from).subscribe(() => {
-			this.toastr.success('Update complete!');
+			this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
 		}, (err: Response) => {
 			this.toastr.error(err.statusText);
 		});

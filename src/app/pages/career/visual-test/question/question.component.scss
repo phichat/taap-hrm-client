@@ -1,6 +1,21 @@
+@import '../../../../../../node_modules/bulma/bulma.sass';
+
 $is-shady-border: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
 $is-shady-box: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
 $border-radius: 4px;
+
+form.content {
+    background-color: #fff !important;
+    min-height: 100% !important;
+}
+
+.navbar {
+    border-radius: unset;
+}
+
+.product-imitation {
+    padding: 0;
+}
 
 .question {
     border-radius: $border-radius;
