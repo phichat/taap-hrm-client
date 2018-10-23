@@ -232,7 +232,6 @@ export class ManageComponent implements OnInit {
 		this.Choices = this.fb.array([this.createChoice()]);
 
 		this.manageService.getQuestion(questionId.toString()).subscribe(x => {
-			// .then(async res => {
 			const res = x.json();
 			this.setItemFormArray(res.choice, 'choice');
 			this.addAnswer(res.choice);

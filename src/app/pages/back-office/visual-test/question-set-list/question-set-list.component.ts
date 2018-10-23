@@ -36,7 +36,6 @@ export class QuestionSetListService {
 
 }
 
-
 const updateUserPosi: number = 1;
 @Component({
   selector: 'app-question-set-list',
@@ -57,6 +56,7 @@ export class QuestionSetListComponent implements OnInit {
 
   ngOnInit() {
     this.qsListService.getListQuestionSet().subscribe(res => {
+      debugger
       this.questionSetList = res.json();
       this.onDetectDataTable();
     })

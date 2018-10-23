@@ -2,24 +2,26 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
-                <!-- <div class="profile-element" dropdown>
-                    <img alt="image" class="" src="assets/images/logo.png" style="width:100%">
-                    <a dropdownToggle>
-                        <span class="block m-t-xs">
-                            <strong class="font-bold">Administrator</strong>
-                        </span>
-                        <span class="text-muted text-xs block">Position
-                            <b class="caret"></b>
+                <div class="dropdown profile-element" style="text-align: left !important;"> <span>
+                    </span>
+                    <a class="dropdown-toggle" href="/">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">
+                                    NOOKNIK </strong>
+                            </span>
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">
+                                    admin </strong>
+                            </span>
+                            <span class="text-muted text-xs block">
+                            </span>
                         </span>
                     </a>
-                    <ul class="animated fadeInRight dropdown-menu" *dropdownMenu>
-                        <li>
-                            <a [href]="#">Profile</a>
-                        </li>
-                    </ul>
-                </div> -->
+
+                </div>
                 <div class="logo-element">
-                    IN+
+                    <span class="fa fa-tasks login_icon"></span>
                 </div>
             </li>
 
@@ -138,6 +140,9 @@
                 <a><i class="fa fa-folder-open"></i> <span class="nav-label">ผู้สมัคร</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li>
+                        <a [href]="externalUrl+'home.php?show=candidate_resume_list'">รายชื่อคนฝากประวัติ</a>
+                    </li>
+                    <li>
                         <a [href]="externalUrl+'home.php?show=candidate_list'">รายชื่อคนสมัครงาน</a>
                     </li>
 
@@ -164,12 +169,12 @@
                             ชุดแบบทดสอบ
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active"
                             routerLink="/back-office/visual-test/verify/8/1">
                             ตรวจแบบทดสอบ&nbsp;<span class="has-text-danger">(e.g.)</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
             <li>

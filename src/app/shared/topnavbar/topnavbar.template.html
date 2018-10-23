@@ -1,7 +1,7 @@
 <div class="row border-bottom">
-  <nav class="navbar navbar-fixed-top white-bg" role="navigation" style="margin-bottom: 0">
+  <nav class="navbar navbar-fixed-top dark-blue-bg" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
-      <a class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()">
+      <a class="minimalize-styl-2 btn btn-success " (click)="toggleNavigation()">
         <i class="fa fa-bars"></i>
       </a>
       <!-- <form role="search" class="navbar-form-custom" method="post" action="#">
@@ -11,6 +11,12 @@
       </form> -->
     </div>
     <ul class="nav navbar-top-links navbar-right">
+      <li>
+        <span class="m-r-sm welcome-message">
+         Welcome to Thonburi Automotive Assembly Plant Co., Ltd. (TAAP)
+        </span>
+
+      </li>
       <li>
         <a (click)="signOut()">
           <i class="fas fa-sign-out-alt"></i> Log out

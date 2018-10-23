@@ -19,7 +19,7 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     // modelUser: ModelUser;
     params: Observable<Params>;
     private _onDestroy = new Subject<void>();
-    externalUrl = 'http://www.dgtstartup.com/hrm/backend/';
+    externalUrl = 'http://203.151.56.136/hrm/backoffice/backend/';
 
     constructor(
         private _activatedRoute: ActivatedRoute,

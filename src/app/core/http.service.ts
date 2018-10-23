@@ -33,7 +33,7 @@ export class HttpService extends Http {
     get(url: string, options?: RequestOptionsArgs): Observable<any> {
 
         this.showLoader();
-
+  
         return super.get(this.getFullUrl(url), this.requestOptions(options))
             .pipe(
                 catchError(this.onCatch),

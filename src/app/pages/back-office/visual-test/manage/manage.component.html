@@ -41,7 +41,7 @@
 						<input class="form-control" formControlName="timeOut" type="number" required>
 					</div>
 					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-primary" (click)="onCreateQuestion();" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
+						<button type="button" class="btn btn-sm btn-success" (click)="onCreateQuestion();" [disabled]="QuestionFG.get('questionSet').invalid && QuestionFG.get('timeOut').invalid">
 							<i class="fa fa-plus-circle fa-spin"></i>&nbsp;สร้างคำถาม
 						</button>
 					</div>
