@@ -30,8 +30,6 @@ export class UsersService implements OnInit {
         const x: fromPubModel.UsersModel = res.json();
         this.currentData.next(x);
       });
-    } else {
-      this.signIn()
     }
   }
 
@@ -61,7 +59,7 @@ export class UsersService implements OnInit {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
-  private getCookie(cname) {
+  getCookie(cname) {
     const name = cname + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const ca = decodedCookie.split(';');

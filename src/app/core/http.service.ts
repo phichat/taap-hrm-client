@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
     Http,
-    RequestOptions,
     RequestOptionsArgs,
     Response,
-    Request,
     Headers,
     XHRBackend
 } from '@angular/http';
