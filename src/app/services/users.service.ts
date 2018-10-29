@@ -31,6 +31,8 @@ export class UsersService implements OnInit {
         const x: fromPubModel.UsersModel = res.json();
         this.currentData.next(x);
       });
+    } else {
+      this.signIn()
     }
   }
 
@@ -41,8 +43,12 @@ export class UsersService implements OnInit {
     let cookie = await this.user.map(async x => await this.deleteCookie(x));
     this.currentData.next(null);
     Promise.all(cookie).then(() =>
-      window.location.href = 'http://203.151.56.136/hrm/backoffice/backend/login.php'
+    this.signIn()
     );
+  }
+
+  private signIn() {
+    window.location.href = 'http://203.151.56.136/hrm/backoffice/backend/login.php'
   }
 
   private deleteCookie(cname) {
