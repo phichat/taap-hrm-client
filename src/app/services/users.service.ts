@@ -21,7 +21,7 @@ export class UsersService implements OnInit {
   currentData = new BehaviorSubject<fromPubModel.UsersModel>(null);
 
   constructor(private http: HttpService) {
-    this.__user.map(async x => await this.setCookie(x.name, x.value));
+    // this.__user.map(async x => await this.setCookie(x.name, x.value));
 
     if (this.getCookie('vt_id')) {
       const id = this.getCookie('vt_id');

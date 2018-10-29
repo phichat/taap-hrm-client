@@ -29,7 +29,7 @@ export class ManageComponent implements OnInit {
 	isModified: string;
 	QuestionList = new Array<QuestionListModel>();
 	dataTable: any;
-	updateUserPosi = 1;
+	updateUserPosi = 2;
 
 	@ViewChild('questionInput') questionInput: ElementRef;
 
