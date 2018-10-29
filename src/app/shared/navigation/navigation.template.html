@@ -1,20 +1,16 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
+    <div class="sidebar-collapse" >
+        <ul class="nav metismenu" id="side-menu" >
+            
             <li class="nav-header">
-                <div class="dropdown profile-element" style="text-align: left !important;"> <span>
+                <div class="dropdown profile-element"> <span>
                     </span>
                     <a class="dropdown-toggle" href="/">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">
-                                    NOOKNIK </strong>
-                            </span>
-                            <span class="block m-t-xs">
-                                <strong class="font-bold">
-                                    admin </strong>
-                            </span>
-                            <span class="text-muted text-xs block">
+                                <strong class="font-bold" style="text-transform:uppercase;">{{user.vtUserName}}</strong>
+                                <br>
+                                <span class="block m-t-xs">{{user.vtNameDeposit}}</span>
                             </span>
                         </span>
                     </a>
@@ -25,13 +21,14 @@
                 </div>
             </li>
 
-            <li>
+
+            <li *ngIf="user.vtTypeUser == 2">
                 <a routerLink="home.php?show=dashboards_list">
                     <i class="fa fa-th-large"></i>
                     <span class="nav-label">Dashboards</span>
                 </a>
             </li>
-            <li>
+            <li *ngIf="user.vtTypeUser == 2">
                 <a><i class="fa fa-user"></i> <span class="nav-label">User Management</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li><a [href]="externalUrl + 'home.php?show=user'">Admin</a></li>
@@ -39,7 +36,7 @@
                     <li><a [href]="externalUrl + 'home.php?show=candidate_account_list'">ผู้สมัคร</a></li>
                 </ul>
             </li>
-            <li>
+            <li *ngIf="user.vtTypeUser == 2">
                 <a><i class="fa fa-building-o"></i> <span class="nav-label">ตั้งค่า</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
@@ -52,22 +49,10 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li *ngIf="user.vtTypeUser == 2">
                 <a [href]="externalUrl + 'home.php?show=position_list'"><i class="fa fa-gears"></i> <span class="nav-label">ตั้งค่าการยื่นคำร้อง</span>
                     <span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level collapse">
-                    <!-- <li >
-                      <a [href]="home.php?show=role_authorization_list">กระบวนการการยื่นคำร้อง <span class="fa arrow"></span></a>
-                      <ul class="nav nav-third-level">
-                      <li >
-                      <a [href]="home.php?show=role_authorization_list">ทุกหน่วยงาน/ แผนก</a>
-                    </li>
-                            <li >
-                    <a [href]="home.php?show=role_authorization_de&id=">      </a>
-                </li>
-                  </ul>
-            </li> -->
-
                     <li>
                         <a [href]="">ขั้นตอนการยื่นคำร้อง <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level collapse">
@@ -122,7 +107,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li *ngIf="user.vtTypeUser == 2 || user.vtTypeUser == 3">
                 <a><i class="fa fa-bookmark"></i> <span class="nav-label">คำร้องเพิ่ม/ทดแทนอัตรากำลัง</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
@@ -136,7 +121,7 @@
                     <li><a [href]="externalUrl + 'home.php?show=request_manpower_post_now_list'">นอกระบบ</a></li>
                 </ul>
             </li>
-            <li>
+            <li *ngIf="user.vtTypeUser == 2">
                 <a><i class="fa fa-folder-open"></i> <span class="nav-label">ผู้สมัคร</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li>
@@ -156,7 +141,7 @@
                 </ul>
             </li>
 
-            <li [ngClass]="{active: activeRoute('visual-test')}">
+            <li *ngIf="user.vtTypeUser == 2" [ngClass]="{active: activeRoute('visual-test')}">
                 <a>
                     <i class="fa fa-list"></i>&nbsp;&nbsp;
                     <span class="nav-label">แบบทดสอบ</span>
@@ -169,16 +154,13 @@
                             ชุดแบบทดสอบ
                         </a>
                     </li>
-                    <!-- <li>
-                        <a [routerLinkActiveOptions]="{exact: true}" class="navbar-item" routerLinkActive="active"
-                            routerLink="/back-office/visual-test/verify/8/1">
-                            ตรวจแบบทดสอบ&nbsp;<span class="has-text-danger">(e.g.)</span>
-                        </a>
-                    </li> -->
                 </ul>
             </li>
             <li>
-                <a [href]="externalUrl+'logout.php'"><i class="fa fa-sign-out"></i> <span class="nav-label">Logout</span></a>
+                <a (click)="signOut()">
+                    <i class="fa fa-sign-out"></i>
+                    <span class="nav-label">Logout</span>
+                </a>
             </li>
         </ul>
     </div>

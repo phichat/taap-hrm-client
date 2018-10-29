@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { HttpModule } from '@angular/http';
 import { LayoutsModule } from './shared/layouts/layouts.module';
+import { UsersService } from './services/users.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { LayoutsModule } from './shared/layouts/layouts.module';
     { 
       provide: LocationStrategy, 
       useClass: HashLocationStrategy 
-    }
+    },
+    UsersService
   ],
   bootstrap: [AppComponent]
 })
