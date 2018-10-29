@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { apiConfig } from '../app.config';
 import * as fromPubModel from '../models/users.model';
 import { HttpService } from 'src/app/core/http.service';
 
@@ -12,7 +11,7 @@ export class UsersService implements OnInit {
   private user = ['vt_id', 'vt_name_deposi', 'vt_type_user', 'vt_username'];
 
   private __user = [
-    { name: 'vt_id', value: '	013d407166ec4fa56eb1e1f8cbe183b9' },
+    { name: 'vt_id', value: '65b9eea6e1cc6bb9f0cd2a47751a186f' },
     { name: 'vt_name_deposi', value: '21232f297a57a5a743894a0e4a801fc3' },
     { name: 'vt_type_user', value: 'c4ca4238a0b923820dcc509a6f75849b' },
     { name: 'vt_username', value: '51de85e35100ada04ecc7bd01c47c8c6' }
@@ -40,16 +39,13 @@ export class UsersService implements OnInit {
   }
 
   async signOut() {
-    let cookie = await this.user.map(async x => await this.deleteCookie(x));
+    let cookie = await this.user.map(x => this.deleteCookie(x));
     this.currentData.next(null);
-    Promise.all(cookie).then(() =>
-    this.signIn()
-    );
+
+    Promise.all(cookie).then(() => this.signIn());
   }
 
-  private signIn() {
-    window.location.href = 'http://203.151.56.136/hrm/backoffice/backend/login.php'
-  }
+  private signIn = () => window.location.href = 'http://203.151.56.136/hrm/backoffice/backend/login.php';
 
   private deleteCookie(cname) {
     var d = new Date(); //Create an date object

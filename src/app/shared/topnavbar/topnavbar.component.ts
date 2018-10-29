@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import * as fromPubService from 'src/app/services';
 import { smoothlyMenu } from 'src/app/app.helpers';
 
 declare var jQuery:any;
@@ -10,7 +10,7 @@ declare var jQuery:any;
 })
 export class TopNavbarComponent {
 
-  constructor(private router: Router){
+  constructor(private s_users: fromPubService.UsersService){
     
   }
 
@@ -20,8 +20,7 @@ export class TopNavbarComponent {
   }
 
   signOut(){
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['login']);
+    this.s_users.signOut();
   }
 
 }

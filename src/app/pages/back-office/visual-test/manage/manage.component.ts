@@ -61,10 +61,7 @@ export class ManageComponent implements OnInit {
 
 	ngOnInit() {
 		this.onActiveRoute();
-		// this.s_users.currentData.subscribe(x => {
-		// 	this.updateUserPosi = x.vtId;
-		// 	console.log(x);
-		// });
+
 	}
 
 	onActiveRoute() {
@@ -84,6 +81,11 @@ export class ManageComponent implements OnInit {
 					})
 				});
 			}
+
+			// this.s_users.currentData.subscribe(x => {
+			// 	if (x.vtId != null)
+			// 		this.updateUserPosi = x.vtId;
+			// });
 		})
 	}
 
@@ -333,7 +335,7 @@ export class ManageComponent implements OnInit {
 
 	onUpdateQuestionSet() {
 		console.log(this.QuestionFG);
-		
+
 		// const fg = this.QuestionFG.value;
 		// const from = {
 		// 	id: fg.id,
