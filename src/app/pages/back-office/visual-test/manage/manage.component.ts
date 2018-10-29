@@ -5,6 +5,7 @@ import { ManageService } from './manage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionListModel, Question, QuestionModel } from '../models/question';
 import { ToastrService } from 'ngx-toastr';
+import * as fromPubService from 'src/app/services';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs';
@@ -14,7 +15,7 @@ class answerModel {
 	text: string;
 }
 
-const updateUserPosi = 1;
+// const updateUserPosi = 1;
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ManageComponent implements OnInit {
 	isModified: string;
 	QuestionList = new Array<QuestionListModel>();
 	dataTable: any;
+	updateUserPosi = 1;
 
 	@ViewChild('questionInput') questionInput: ElementRef;
 
@@ -37,6 +39,7 @@ export class ManageComponent implements OnInit {
 		private router: Router,
 		private manageService: ManageService,
 		private toastr: ToastrService,
+		private s_users: fromPubService.UsersService,
 		private chRef: ChangeDetectorRef
 	) {
 	}
@@ -58,6 +61,10 @@ export class ManageComponent implements OnInit {
 
 	ngOnInit() {
 		this.onActiveRoute();
+		// this.s_users.currentData.subscribe(x => {
+		// 	this.updateUserPosi = x.vtId;
+		// 	console.log(x);
+		// });
 	}
 
 	onActiveRoute() {
@@ -109,7 +116,7 @@ export class ManageComponent implements OnInit {
 			id: new FormControl(0, Validators.required),
 			questionSet: new FormControl(null, Validators.required),
 			timeOut: new FormControl(null, Validators.required),
-			updateUserPosi: new FormControl(updateUserPosi, Validators.required),
+			updateUserPosi: new FormControl(this.updateUserPosi, Validators.required),
 			question: this.createQuestionFrom()
 		})
 	}
@@ -124,7 +131,7 @@ export class ManageComponent implements OnInit {
 			isActive: new FormControl(null),
 			answer: new FormControl(null, Validators.required),
 			choice: this.fb.array([this.createChoice()]),
-			updateUserPosi: new FormControl(updateUserPosi)
+			updateUserPosi: new FormControl(this.updateUserPosi)
 		})
 	}
 
@@ -136,7 +143,7 @@ export class ManageComponent implements OnInit {
 			answerChoice: new FormControl(1, Validators.required),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
-			updateUserPosi: new FormControl(updateUserPosi)
+			updateUserPosi: new FormControl(this.updateUserPosi)
 		})
 	}
 
@@ -248,7 +255,7 @@ export class ManageComponent implements OnInit {
 		const from = {
 			id,
 			isActive,
-			updateUserPosi
+			updateUserPosi: this.updateUserPosi
 		}
 
 		this.manageService.updateActiveQuestion(from).subscribe(() => {
@@ -265,8 +272,10 @@ export class ManageComponent implements OnInit {
 	}
 
 	onDelChoice(index: number) {
-		if (this.isModified == 'R') {
-			let c = this.choice.at(index).value;
+		if (this.choice.value.length == 1) return;
+
+		let c = this.choice.at(index).value;
+		if (this.isModified == 'R' && c.id != 0) {
 			if (confirm(`ต้องการลบรายการ ตัวเลือกที่ ${c.answerChoice} หรือไม่ ?`)) {
 				this.manageService.deleteChoice(c.id).then(x => {
 					this.toastr.success(`ลบตัวเลือกที่ ${c.answerChoice} สำเร็จ!`);
@@ -323,18 +332,20 @@ export class ManageComponent implements OnInit {
 	}
 
 	onUpdateQuestionSet() {
-		const fg = this.QuestionFG.value;
-		const from = {
-			id: fg.id,
-			questionSet: fg.questionSet,
-			timeOut: fg.timeOut,
-			updateUserPosi
-		}
-		this.manageService.updateQuestionSet(from).subscribe(() => {
-			this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
-		}, (err: Response) => {
-			this.toastr.error(err.statusText);
-		});
+		console.log(this.QuestionFG);
+		
+		// const fg = this.QuestionFG.value;
+		// const from = {
+		// 	id: fg.id,
+		// 	questionSet: fg.questionSet,
+		// 	timeOut: fg.timeOut,
+		// 	updateUserPosi: this.updateUserPosi
+		// }
+		// this.manageService.updateQuestionSet(from).subscribe(() => {
+		// 	this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
+		// }, (err: Response) => {
+		// 	this.toastr.error(err.statusText);
+		// });
 	}
 
 	onComplete() {

@@ -56,7 +56,6 @@ export class QuestionSetListComponent implements OnInit {
 
   ngOnInit() {
     this.qsListService.getListQuestionSet().subscribe(res => {
-      debugger
       this.questionSetList = res.json();
       this.onDetectDataTable();
     })
