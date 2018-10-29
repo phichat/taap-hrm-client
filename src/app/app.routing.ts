@@ -7,7 +7,10 @@ export const routes: Routes = [
         path: '', redirectTo: '/starter', pathMatch: 'full'
     },
     {
-        path: 'starter', component: BasicLayoutComponent, loadChildren: './pages/starter/starter.module#StarterModule'
+        path: 'starter', 
+        component: BasicLayoutComponent, 
+        loadChildren: './pages/starter/starter.module#StarterModule',
+        canActivate: [GuardGuard]
     },
     {
         path: 'back-office', component: BasicLayoutComponent,
