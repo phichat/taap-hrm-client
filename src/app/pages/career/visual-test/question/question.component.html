@@ -103,7 +103,8 @@
 						<a *ngIf="showPreviousButton" href="javaScript:void(0);" data-nav="previous" class="btn btn-default" (click)="onPreviousStep()">ย้อนกลับ</a>
 					</div>
 					<div class="steps-action">
-						<a *ngIf="showNextButton" href="javaScript:void(0);" data-nav="next" class="btn btn-default" (click)="onNextStep()">ถัดไป</a>
+						<a *ngIf="showNextButton && (choiceYourChoose != getQuestionArr(QuestionFG).length)" 
+						href="javaScript:void(0);" data-nav="next" class="btn btn-default" (click)="onNextStep()">ถัดไป</a>
 						<button #btnSubmit *ngIf="choiceYourChoose == getQuestionArr(QuestionFG).length" type="submit" class="btn btn-success">
 							ส่งแบบทดสอบ
 						</button>
