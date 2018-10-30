@@ -9,6 +9,8 @@ import * as fromPubService from 'src/app/services';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { UsersModel } from 'src/app/models';
 
 class answerModel {
 	value: string;
@@ -29,6 +31,7 @@ export class ManageComponent implements OnInit {
 	isModified: string;
 	QuestionList = new Array<QuestionListModel>();
 	dataTable: any;
+	asyncUser: BehaviorSubject<UsersModel>;
 	updateUserPosi = 2;
 
 	@ViewChild('questionInput') questionInput: ElementRef;
@@ -61,7 +64,12 @@ export class ManageComponent implements OnInit {
 
 	ngOnInit() {
 		this.onActiveRoute();
-
+		this.asyncUser = this.s_users.currentData;
+		this.asyncUser.subscribe(x => {
+			console.log(x);
+			
+		})
+		
 	}
 
 	onActiveRoute() {
@@ -81,11 +89,6 @@ export class ManageComponent implements OnInit {
 					})
 				});
 			}
-
-			// this.s_users.currentData.subscribe(x => {
-			// 	if (x.vtId != null)
-			// 		this.updateUserPosi = x.vtId;
-			// });
 		})
 	}
 
