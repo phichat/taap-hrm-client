@@ -20,7 +20,7 @@ export class VerifyService {
 
   updateActiveTestResult(id: string, isActive: string) {
     const params = { id, isActive }
-    return this.httpService.get('VerifyQuestion/ActiveTestResult', { params });
+    return this.httpService.put('VerifyQuestion/ActiveTestResult', params);
   }
 
 }
@@ -65,10 +65,10 @@ export class VerifyComponent implements OnInit {
 
     this.verifyService
       .updateActiveTestResult(id.toString(), isActive.toString())
-      .subscribe(x => {
+      .subscribe(() => {
         this.result.isActive = isActive;
         this.toastr.success(`${msg} complete!`, msg);
-        
+
       }, (err: Response) => {
         event.target.checked = (e == 1 ? true : false);
         this.toastr.error(err.statusText, msg);
