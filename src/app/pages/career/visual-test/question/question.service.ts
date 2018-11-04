@@ -20,9 +20,9 @@ export class QuestionService {
       })
   };
 
-  getQuestionRandom(id: string) {
+  getQuestionRandom(questionSetId: string, userId: string) {
     const url = 'Question/GetQuestionRandom'
-    const params = { id };
+    const params = { questionSetId, userId };
     return this.httpService.get(url, { params })
   }
 

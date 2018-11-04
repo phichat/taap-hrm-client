@@ -29,7 +29,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
     choiceYourChoose: number = 0;
     timeOutMinutes: any;
     isFinished: boolean = false;
-
+    
     private getRandomSubscrip: Subscription;
 
     private myTimeout: any;
@@ -83,8 +83,14 @@ export class QuestionComponent implements OnInit, OnDestroy {
             this.userId = x['userId'];
 
             this.getRandomSubscrip = this.questionService
-                .getQuestionRandom(x['questionSetId'])
+                .getQuestionRandom(x['questionSetId'], x['userId'])
                 .subscribe((res: any) => {
+                    if (res.status == 204) {
+                        this.isFinished = true
+                        this.timeOutMinutes = 0;
+                        return;
+                    }
+
                     const x: QuestionSetRandom = res.json();
 
                     this.questionModel = x.question;
@@ -238,7 +244,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
 
         for (let i = 0; i < content.length; i++) {
             let nextIndex = i + 1;
-            
+
             if (nextIndex == content.length) return;
 
             if (content[i].classList.contains('is-active')) {

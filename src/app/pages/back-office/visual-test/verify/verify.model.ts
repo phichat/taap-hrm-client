@@ -9,6 +9,7 @@ export class VerifyModel {
     public pass: number;
     public fail: number;
     public total: number;
+    public isActive: number;
     public resultDetail: Array<ResultDetail>
 }
 

@@ -49,6 +49,17 @@
 							</span>
 							<strong>เวลาที่ใช้ในการทำแบบทดสอบ : </strong>
 						</li>
+						<li class="list-group-item">
+							<span class="pull-right">
+								<div class="field">
+									<input id="isActive" type="checkbox" class="switch is-medium is-rounded" [checked]="result.isActive == 1 ? 'checked' : ''"
+									 (change)="onActiveResult(result.isActive, result.id, $event)">
+									<label for="isActive"></label>
+								</div>
+
+							</span>
+							<strong>เวลาที่ใช้ในการทำแบบทดสอบ : </strong>
+						</li>
 					</ul>
 
 				</div>

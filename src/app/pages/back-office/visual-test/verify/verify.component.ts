@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs';
 import { HttpService } from 'src/app/core/http.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,17 @@ export class VerifyService {
   constructor(private httpService: HttpService) { }
 
   getQuestionResult(questionSetId: string, userId: string) {
-    // : Promise<any> {
-    // const url = `${apiConfig.apiUrl}/VerifyQuestion/GetQuestionResult`;
-    // const params = { questionSetId, userId };
-    // return this.http.get<any>(url, { params }).toPromise();
     const params = { questionSetId, userId };
     return this.httpService.get('VerifyQuestion/GetQuestionResult', { params });
   }
+
+  updateActiveTestResult(id: string, isActive: string) {
+    const params = { id, isActive }
+    return this.httpService.get('VerifyQuestion/ActiveTestResult', { params });
+  }
+
 }
+const updateUserPosi: number = 1;
 
 @Component({
   selector: 'app-verify',
@@ -32,14 +36,20 @@ export class VerifyComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private verifyService: VerifyService,
+    private toastr: ToastrService,
     private chRef: ChangeDetectorRef
   ) { }
   dataTable: any;
   result = new VerifyModel();
   resultDetail = new Array<ResultDetail>();
 
+  questionSetId: string;
+  userId: string;
+
   ngOnInit() {
     this.activeRoute.params.subscribe(x => {
+      this.questionSetId = x['questionSetId'];
+      this.userId = x['userId'];
       this.verifyService.getQuestionResult(x['questionSetId'], x['userId']).subscribe(res => {
         const x: VerifyModel = res.json();
         this.result = x;
@@ -47,6 +57,22 @@ export class VerifyComponent implements OnInit {
         this.onDetectDataTable();
       })
     })
+  }
+
+  onActiveResult(e: any, id: number, event: any) {
+    const isActive = (e == 1 ? 0 : 1);
+    const msg = isActive == 1 ? 'Set is Active' : 'Set is Deactive';
+
+    this.verifyService
+      .updateActiveTestResult(id.toString(), isActive.toString())
+      .subscribe(x => {
+        this.result.isActive = isActive;
+        this.toastr.success(`${msg} complete!`, msg);
+        
+      }, (err: Response) => {
+        event.target.checked = (e == 1 ? true : false);
+        this.toastr.error(err.statusText, msg);
+      });
   }
 
   onDetectDataTable() {
