@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import * as fromPubService from 'src/app/services';
 import { UsersModel } from 'src/app/models';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { apiConfig } from 'src/app/app.config';
 
 declare var jQuery: any;
 
@@ -18,7 +19,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     // modelUser: ModelUser;
     params: Observable<Params>;
     asyncUser: BehaviorSubject<UsersModel>;
-    externalUrl = 'http://203.151.56.136/hrm/backoffice/backend/';
+    externalUrl = `${apiConfig.apiExternal}/`;
 
     user = new UsersModel();
 

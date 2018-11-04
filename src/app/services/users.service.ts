@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import * as fromPubModel from '../models/users.model';
 import { HttpService } from 'src/app/core/http.service';
+import { apiConfig } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class UsersService implements OnInit {
   currentData = new BehaviorSubject<fromPubModel.UsersModel>(null);
 
   constructor(private http: HttpService) {
-    this.__user.map(async x => await this.setCookie(x.name, x.value));
+    // this.__user.map(async x => await this.setCookie(x.name, x.value));
 
     if (this.getCookie('vt_id')) {
       const id = this.getCookie('vt_id');
@@ -43,7 +44,7 @@ export class UsersService implements OnInit {
     Promise.all(cookie).then(() => this.signIn());
   }
 
-  private signIn = () => window.location.href = 'http://203.151.56.136/hrm/backoffice/backend/login.php';
+  private signIn = () => window.location.href = `${apiConfig.apiExternal}/login.php`;
 
   private deleteCookie(cname) {
     var d = new Date(); //Create an date object
