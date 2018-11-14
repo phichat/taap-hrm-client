@@ -67,9 +67,9 @@ export class ManageComponent implements OnInit {
 		this.asyncUser = this.s_users.currentData;
 		this.asyncUser.subscribe(x => {
 			console.log(x);
-			
+
 		})
-		
+
 	}
 
 	onActiveRoute() {
@@ -199,6 +199,13 @@ export class ManageComponent implements OnInit {
 		reader.readAsDataURL(file);
 	}
 
+	onDeleteQuestionImg() {
+		this.Question.patchValue({
+			img: null,
+			imgName: null
+		})
+	}
+
 	changeChoiceImg(e: any, index: number) {
 		let file = e.target.files[0];
 		let isMatch: boolean | false;
@@ -217,6 +224,13 @@ export class ManageComponent implements OnInit {
 		};
 
 		reader.readAsDataURL(file);
+	}
+
+	onDeleteChoiceImg(index: number) {
+		this.choice.at(index).patchValue({
+			img: null,
+			imgName: null
+		})
 	}
 
 	getChoiceByIndex(i: number): Choice {
@@ -337,20 +351,20 @@ export class ManageComponent implements OnInit {
 	}
 
 	onUpdateQuestionSet() {
-		console.log(this.QuestionFG);
+		// console.log(this.QuestionFG);
 
-		// const fg = this.QuestionFG.value;
-		// const from = {
-		// 	id: fg.id,
-		// 	questionSet: fg.questionSet,
-		// 	timeOut: fg.timeOut,
-		// 	updateUserPosi: this.updateUserPosi
-		// }
-		// this.manageService.updateQuestionSet(from).subscribe(() => {
-		// 	this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
-		// }, (err: Response) => {
-		// 	this.toastr.error(err.statusText);
-		// });
+		const fg = this.QuestionFG.value;
+		const from = {
+			id: fg.id,
+			questionSet: fg.questionSet,
+			timeOut: fg.timeOut,
+			updateUserPosi: this.updateUserPosi
+		}
+		this.manageService.updateQuestionSet(from).subscribe(() => {
+			this.toastr.success('อัพเดทข้อมูลสำเร็จ!');
+		}, (err: Response) => {
+			this.toastr.error(err.statusText);
+		});
 	}
 
 	onComplete() {

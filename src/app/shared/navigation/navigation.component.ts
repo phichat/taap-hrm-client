@@ -21,7 +21,7 @@ export class NavigationComponent implements OnInit, AfterViewInit {
     asyncUser: BehaviorSubject<UsersModel>;
     externalUrl = `${apiConfig.apiExternal}/`;
 
-    user = new UsersModel();
+    user: UsersModel | null = null;
 
     constructor(
         private _router: Router,

@@ -118,6 +118,9 @@
 									<img [src]="question.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" width="100%">
 								</label>
 								<input id="questionfileimg" class="file-input hidden" type="file" (change)="changeQuestionImg($event)">
+								<button type="button" class="btn btn-xs btn-outline btn-danger" style="width: 100%;" (click)="onDeleteQuestionImg()">
+									<i class="fa fa-times fa-fw" aria-hidden="true"></i>ลบรูป
+								</button>
 							</div>
 						</div>
 					</div>
@@ -145,7 +148,7 @@
 								</div>
 							</div>
 							<div class="col-md-6" style="border-left: 1px solid rgb(204, 204, 204);">
-								<!--  -->
+
 								<label for="" class="col-md-3 col-form-label">
 									เลือกรูป :
 								</label>
@@ -154,6 +157,10 @@
 										<img [src]="choices.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="" width="100%">
 									</label>
 									<input [id]="'choicefileimg'+i" class="hidden" type="file" [name]="'img'+i" (change)="changeChoiceImg($event, i)">
+
+									<button type="button" class="btn btn-xs btn-outline btn-danger" style="width: 100%;" (click)="onDeleteChoiceImg(i)">
+										<i class="fa fa-times fa-fw" aria-hidden="true"></i>ลบรูป
+									</button>
 								</div>
 							</div>
 
