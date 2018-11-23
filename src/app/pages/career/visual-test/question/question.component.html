@@ -53,7 +53,7 @@
 						<div class="columns is-variable bd-klmn-columns is-2" [formGroupName]="i">
 							<div class="column"></div>
 							<div class="column is-5">
-								<figure class="image is-5by3">
+								<figure class="image">
 									<img [src]="questions.get('img').value || 'https://bulma.io/images/placeholders/1280x960.png'" alt="Placeholder image">
 								</figure>
 							</div>
@@ -66,7 +66,7 @@
 						<div class="row">
 							<div class="col-md-6 b-r">
 								<div class="row">
-									<div class="col-md-4" *ngFor="let choices of getChoiceArr(questions); let j1=index">
+									<div class="col-md-3" *ngFor="let choices of getChoiceArr(questions); let j1=index">
 										<div class="ibox">
 											<div class="ibox-content product-box">
 												<div class="product-imitation">

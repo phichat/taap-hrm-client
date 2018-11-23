@@ -128,12 +128,11 @@ export class ManageComponent implements OnInit {
 
 	createQuestionFrom(): FormGroup {
 		return this.fb.group({
-			id: new FormControl(0),
-			// questionSetId: new FormControl(0, Validators.required),
+			id: new FormControl(0, Validators.required),
 			question: new FormControl(null, Validators.required),
 			img: new FormControl(null),
 			imgName: new FormControl(null),
-			isActive: new FormControl(null),
+			isActive: new FormControl(1),
 			answer: new FormControl(null, Validators.required),
 			choice: this.fb.array([this.createChoice()]),
 			updateUserPosi: new FormControl(this.updateUserPosi)
@@ -238,17 +237,26 @@ export class ManageComponent implements OnInit {
 	}
 
 	onCloseQuestion() {
+		this.resetQuestionForm();
 		this.isNewQeustion = false;
 		this.isModified = null;
-		this.resetQuestionForm();
 	}
 
 	onCreateQuestion() {
 		this.isModified = 'C';
 		this.isNewQeustion = true;
+
+		this.resetQuestionForm()
+		this.question.patchValue({ 
+			id: 0, 
+			isActive: 1,
+			updateUserPosi: this.updateUserPosi 
+		});
+
 		setTimeout(() => {
 			this.questionInput.nativeElement.focus();
 		}, 100);
+
 	}
 
 	onEditQuestion(questionId: number) {
@@ -266,6 +274,10 @@ export class ManageComponent implements OnInit {
 			this.isModified = 'R';
 			this.isNewQeustion = true;
 		})
+
+		setTimeout(() => {
+			this.questionInput.nativeElement.focus();
+		}, 100);
 	}
 
 	onActiveQuestion(e: any, i: number, id: number, event: any) {
@@ -379,13 +391,14 @@ export class ManageComponent implements OnInit {
 	}
 
 	resetQuestionForm() {
+		this.question.reset();
 		this.Question = this.question;
-		this.Question.reset(this.createQuestionFrom());
+		this.Question = this.createQuestionFrom();
 		this.Choices = this.choice;
 		while (this.Choices.length !== 0) {
 			this.Choices.removeAt(0)
 		}
 		this.Choices.push(this.createChoice())
-		this.Answer = new Array<answerModel>();
+		this.addAnswer(this.Choices.value);
 	}
 }
